@@ -9,9 +9,20 @@ import SwiftUI
 
 @main
 struct Twitter_TestsApp: App {
+
+    let api = TwitterAPI()
+    let trendsColletion: TrendsCollection
+
+    init() {
+        self.trendsColletion = TrendsCollection(api: api)
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                TrendsCollectionView(trendsCollection: trendsColletion)
+            }
         }
     }
 }
+

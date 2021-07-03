@@ -8,17 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		7D25AB14268E70C100AAD063 /* Twitter_TestsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB13268E70C100AAD063 /* Twitter_TestsApp.swift */; };
-		7D25AB16268E70C100AAD063 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB15268E70C100AAD063 /* ContentView.swift */; };
 		7D25AB18268E70C200AAD063 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D25AB17268E70C200AAD063 /* Assets.xcassets */; };
 		7D25AB1B268E70C200AAD063 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D25AB1A268E70C200AAD063 /* Preview Assets.xcassets */; };
+		7D25AB22268E70D300AAD063 /* TwitterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB21268E70D300AAD063 /* TwitterAPI.swift */; };
+		7D25AB28268E751300AAD063 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB27268E751300AAD063 /* TokenResponse.swift */; };
+		7D25AB2A268E80DE00AAD063 /* TrendsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB29268E80DE00AAD063 /* TrendsResponse.swift */; };
+		7D25AB2D268EABA900AAD063 /* TrendsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB2C268EABA900AAD063 /* TrendsCollectionView.swift */; };
+		7D25AB2F268EAD2700AAD063 /* TrendsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB2E268EAD2700AAD063 /* TrendsCollection.swift */; };
+		7D25AB31268EB8DF00AAD063 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB30268EB8DF00AAD063 /* SearchResponse.swift */; };
+		7D25AB35268EC1B000AAD063 /* Trend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB34268EC1B000AAD063 /* Trend.swift */; };
+		7D25AB37268EC66E00AAD063 /* TrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB36268EC66E00AAD063 /* TrendView.swift */; };
+		7D25AB39268F820500AAD063 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB38268F820500AAD063 /* ErrorResponse.swift */; };
+		7D25AB3C268FD85500AAD063 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB3B268FD85500AAD063 /* Tweet.swift */; };
+		7D25AB3E268FD86300AAD063 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB3D268FD86300AAD063 /* User.swift */; };
+		7D25AB40268FDE3200AAD063 /* TweetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB3F268FDE3200AAD063 /* TweetView.swift */; };
+		7D25AB432690BF8C00AAD063 /* TweetDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB422690BF8C00AAD063 /* TweetDataObject.swift */; };
+		7D25AB452690BFA200AAD063 /* UserDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB442690BFA200AAD063 /* UserDataObject.swift */; };
+		7D25AB472690C18E00AAD063 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB462690C18E00AAD063 /* Conversation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7D25AB10268E70C100AAD063 /* Twitter Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Twitter Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D25AB13268E70C100AAD063 /* Twitter_TestsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter_TestsApp.swift; sourceTree = "<group>"; };
-		7D25AB15268E70C100AAD063 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7D25AB17268E70C200AAD063 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D25AB1A268E70C200AAD063 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7D25AB21268E70D300AAD063 /* TwitterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAPI.swift; sourceTree = "<group>"; };
+		7D25AB25268E73B600AAD063 /* Twitter-Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Twitter-Tests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7D25AB27268E751300AAD063 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		7D25AB29268E80DE00AAD063 /* TrendsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsResponse.swift; sourceTree = "<group>"; };
+		7D25AB2C268EABA900AAD063 /* TrendsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsCollectionView.swift; sourceTree = "<group>"; };
+		7D25AB2E268EAD2700AAD063 /* TrendsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsCollection.swift; sourceTree = "<group>"; };
+		7D25AB30268EB8DF00AAD063 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		7D25AB34268EC1B000AAD063 /* Trend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trend.swift; sourceTree = "<group>"; };
+		7D25AB36268EC66E00AAD063 /* TrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendView.swift; sourceTree = "<group>"; };
+		7D25AB38268F820500AAD063 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		7D25AB3B268FD85500AAD063 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		7D25AB3D268FD86300AAD063 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7D25AB3F268FDE3200AAD063 /* TweetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetView.swift; sourceTree = "<group>"; };
+		7D25AB41268FE71600AAD063 /* Twitter Tests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Twitter Tests.entitlements"; sourceTree = "<group>"; };
+		7D25AB422690BF8C00AAD063 /* TweetDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetDataObject.swift; sourceTree = "<group>"; };
+		7D25AB442690BFA200AAD063 /* UserDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataObject.swift; sourceTree = "<group>"; };
+		7D25AB462690C18E00AAD063 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +81,12 @@
 		7D25AB12268E70C100AAD063 /* Twitter Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7D25AB41268FE71600AAD063 /* Twitter Tests.entitlements */,
+				7D25AB25268E73B600AAD063 /* Twitter-Tests-Info.plist */,
 				7D25AB13268E70C100AAD063 /* Twitter_TestsApp.swift */,
-				7D25AB15268E70C100AAD063 /* ContentView.swift */,
+				7D25AB3A268F8D1B00AAD063 /* Models */,
+				7D25AB2B268EAB9B00AAD063 /* Views */,
+				7D25AB26268E744300AAD063 /* API */,
 				7D25AB17268E70C200AAD063 /* Assets.xcassets */,
 				7D25AB19268E70C200AAD063 /* Preview Content */,
 			);
@@ -65,6 +99,42 @@
 				7D25AB1A268E70C200AAD063 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7D25AB26268E744300AAD063 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				7D25AB21268E70D300AAD063 /* TwitterAPI.swift */,
+				7D25AB27268E751300AAD063 /* TokenResponse.swift */,
+				7D25AB29268E80DE00AAD063 /* TrendsResponse.swift */,
+				7D25AB30268EB8DF00AAD063 /* SearchResponse.swift */,
+				7D25AB422690BF8C00AAD063 /* TweetDataObject.swift */,
+				7D25AB442690BFA200AAD063 /* UserDataObject.swift */,
+				7D25AB38268F820500AAD063 /* ErrorResponse.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		7D25AB2B268EAB9B00AAD063 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7D25AB2C268EABA900AAD063 /* TrendsCollectionView.swift */,
+				7D25AB36268EC66E00AAD063 /* TrendView.swift */,
+				7D25AB3F268FDE3200AAD063 /* TweetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7D25AB3A268F8D1B00AAD063 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7D25AB34268EC1B000AAD063 /* Trend.swift */,
+				7D25AB3B268FD85500AAD063 /* Tweet.swift */,
+				7D25AB3D268FD86300AAD063 /* User.swift */,
+				7D25AB2E268EAD2700AAD063 /* TrendsCollection.swift */,
+				7D25AB462690C18E00AAD063 /* Conversation.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +207,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D25AB16268E70C100AAD063 /* ContentView.swift in Sources */,
+				7D25AB452690BFA200AAD063 /* UserDataObject.swift in Sources */,
+				7D25AB2A268E80DE00AAD063 /* TrendsResponse.swift in Sources */,
+				7D25AB22268E70D300AAD063 /* TwitterAPI.swift in Sources */,
+				7D25AB39268F820500AAD063 /* ErrorResponse.swift in Sources */,
+				7D25AB3C268FD85500AAD063 /* Tweet.swift in Sources */,
+				7D25AB432690BF8C00AAD063 /* TweetDataObject.swift in Sources */,
+				7D25AB2D268EABA900AAD063 /* TrendsCollectionView.swift in Sources */,
+				7D25AB31268EB8DF00AAD063 /* SearchResponse.swift in Sources */,
+				7D25AB472690C18E00AAD063 /* Conversation.swift in Sources */,
+				7D25AB3E268FD86300AAD063 /* User.swift in Sources */,
+				7D25AB40268FDE3200AAD063 /* TweetView.swift in Sources */,
+				7D25AB2F268EAD2700AAD063 /* TrendsCollection.swift in Sources */,
+				7D25AB37268EC66E00AAD063 /* TrendView.swift in Sources */,
+				7D25AB35268EC1B000AAD063 /* Trend.swift in Sources */,
 				7D25AB14268E70C100AAD063 /* Twitter_TestsApp.swift in Sources */,
+				7D25AB28268E751300AAD063 /* TokenResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,24 +350,34 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Twitter Tests/Twitter Tests.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Twitter Tests/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Twitter-Tests-Info.plist";
+				INFOPLIST_KEY_CFBundleExecutable = "Twitter Tests";
+				INFOPLIST_KEY_CFBundleName = "Twitter Tests";
+				INFOPLIST_KEY_CFBundleVersion = 1;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ghostcode.Twitter-Tests";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -295,24 +389,33 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Twitter Tests/Twitter Tests.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Twitter Tests/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Twitter-Tests-Info.plist";
+				INFOPLIST_KEY_CFBundleExecutable = "Twitter Tests";
+				INFOPLIST_KEY_CFBundleName = "Twitter Tests";
+				INFOPLIST_KEY_CFBundleVersion = 1;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.ghostcode.Twitter-Tests";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
