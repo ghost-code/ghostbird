@@ -11,12 +11,15 @@ import Foundation
 class SearchResults: ObservableObject, Identifiable {
 
     @Published var tweets: [Tweet] = []
+    @Published var errorIsActive: Bool = false
 
     let api: TwitterAPIProtocol
     let id: String
     let name: String
     let query: String
     var olderTweetsToken: String?
+
+    var activeError: Error? { didSet { errorIsActive = activeError != nil } }
 
     init(api: TwitterAPIProtocol, id: String, name: String, query: String) {
         self.api = api

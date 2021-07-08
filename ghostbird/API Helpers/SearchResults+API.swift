@@ -28,27 +28,42 @@ extension SearchResults {
         return tweets
     }
 
-    func getTweets() async throws {
-        let searchResults = try await api.getSearchResults(forQuery: query,
-                                                           sinceID: nil,
-                                                           nextToken: nil)
-        olderTweetsToken = searchResults.meta.next_token
-        self.tweets = SearchResults.tweets(for: searchResults, api: api)
+    func getTweets() async {
+        do {
+            let searchResults = try await api.getSearchResults(forQuery: query,
+                                                               sinceID: nil,
+                                                               nextToken: nil)
+            olderTweetsToken = searchResults.meta.next_token
+            self.tweets = SearchResults.tweets(for: searchResults, api: api)
+        } catch {
+            activeError = error
+            errorIsActive = true
+        }
     }
 
-    func getNewerTweets() async throws {
-        let searchResults = try await api.getSearchResults(forQuery: query,
-                                                           sinceID: tweets.first?.id,
-                                                           nextToken: nil)
-        self.tweets.insert(contentsOf: SearchResults.tweets(for: searchResults, api: api), at: 0)
+    func getNewerTweets() async {
+        do {
+            let searchResults = try await api.getSearchResults(forQuery: query,
+                                                               sinceID: tweets.first?.id,
+                                                               nextToken: nil)
+            self.tweets.insert(contentsOf: SearchResults.tweets(for: searchResults, api: api), at: 0)
+        } catch {
+            activeError = error
+            errorIsActive = true
+        }
     }
 
-    func getOlderTweets() async throws {
-        let searchResults = try await api.getSearchResults(forQuery: query,
-                                                           sinceID: nil,
-                                                           nextToken: olderTweetsToken)
-        self.olderTweetsToken = searchResults.meta.next_token
-        tweets.append(contentsOf: SearchResults.tweets(for: searchResults, api: api))
+    func getOlderTweets() async {
+        do {
+            let searchResults = try await api.getSearchResults(forQuery: query,
+                                                               sinceID: nil,
+                                                               nextToken: olderTweetsToken)
+            self.olderTweetsToken = searchResults.meta.next_token
+            tweets.append(contentsOf: SearchResults.tweets(for: searchResults, api: api))
+        } catch {
+            activeError = error
+            errorIsActive = true
+        }
     }
 
 }

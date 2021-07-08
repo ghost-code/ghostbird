@@ -11,9 +11,6 @@ struct TrendsView: View {
 
     @ObservedObject var trends: Trends
 
-    @State var networkErrorAlertIsPresented: Bool = false
-    @State var networkErrorAlertMessage: String = ""
-
     var body: some View {
         List(trends.trendsCollection) { trend in
             NavigationLink(destination: SearchResultsView(searchResults: trend.searchResults)) {
@@ -22,27 +19,16 @@ struct TrendsView: View {
         }
         .task {
             if trends.trendsCollection.isEmpty {
-                await updateTrendsAction()
+                await trends.getTrends()
             }
         }
-        .refreshable(action: updateTrendsAction)
-        .alert(isPresented: $networkErrorAlertIsPresented, content: networkErrorAlert)
-        .navigationBarTitle("Trends", displayMode: .inline)
-    }
-
-    func updateTrendsAction() async {
-        do {
-            try await trends.getTrends()
-        } catch {
-            networkErrorAlertMessage = error.localizedDescription
-            networkErrorAlertIsPresented = true
+        .refreshable {
+            await trends.getTrends()
         }
-    }
-
-    func networkErrorAlert() -> Alert {
-        return Alert(title: Text("Network Error"),
-                     message: Text(networkErrorAlertMessage),
-                     dismissButton: .default(Text("OK")))
+        .navigationBarTitle("Trends", displayMode: .inline)
+        .alert(isPresented: $trends.errorIsActive) {
+            NetworkErrorAlert.alert(for: trends.activeError)
+        }
     }
 
 }

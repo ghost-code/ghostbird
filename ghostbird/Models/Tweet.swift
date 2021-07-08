@@ -12,6 +12,7 @@ class Tweet: ObservableObject, Identifiable {
 
     @Published var referencedTweets: [Tweet] = []
     @Published var replies: [Tweet] = []
+    @Published var errorIsActive: Bool = false
 
     let api: TwitterAPIProtocol
     let id: String
@@ -21,7 +22,7 @@ class Tweet: ObservableObject, Identifiable {
     let date: Date
     let referencedTweetIDs: [String]
 
-    private var moreRepliesToken: String?
+    var activeError: Error? { didSet { errorIsActive = activeError != nil } }
 
     init(api: TwitterAPIProtocol,
          id: String,
@@ -40,12 +41,22 @@ class Tweet: ObservableObject, Identifiable {
         self.referencedTweetIDs = referencedTweetIDs ?? []
     }
 
-    func getReferencedTweets() async throws {
-        referencedTweets = try await getReferencedTweets(for: referencedTweetIDs)
+    func getReferencedTweets() async {
+        do {
+            referencedTweets = try await getReferencedTweets(for: referencedTweetIDs)
+        } catch {
+            activeError = error
+            errorIsActive = true
+        }
      }
 
-    func getReplies() async throws {
-        replies = try await getReplies(nextToken: nil)
+    func getReplies() async {
+        do {
+            replies = try await getReplies(nextToken: nil)
+        } catch {
+            activeError = error
+            errorIsActive = true
+        }
     }
 
 }

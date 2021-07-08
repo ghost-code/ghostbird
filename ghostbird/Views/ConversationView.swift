@@ -10,16 +10,13 @@ import SwiftUI
 struct ConversationView: View {
     @ObservedObject var tweet: Tweet
 
-    @State var networkErrorAlertIsPresented: Bool = false
-    @State var networkErrorAlertMessage: String = ""
-
     var body: some View {
         VStack(spacing: 0) {
             List {
                 Section {
-                    ForEach(tweet.referencedTweets) { rferencedTweet in
-                        NavigationLink(destination: ConversationView(tweet: rferencedTweet)) {
-                            TweetView(tweet: rferencedTweet)
+                    ForEach(tweet.referencedTweets) { refrencedTweet in
+                        NavigationLink(destination: ConversationView(tweet: refrencedTweet)) {
+                            TweetView(tweet: refrencedTweet)
                         }
                     }
                 }
@@ -36,30 +33,16 @@ struct ConversationView: View {
             }
             .listStyle(.plain)
         }
-        .alert(isPresented: $networkErrorAlertIsPresented, content: networkErrorAlert)
+        .alert(isPresented: $tweet.errorIsActive) {
+            NetworkErrorAlert.alert(for: tweet.activeError)
+        }
         .task {
             if tweet.replies.isEmpty && tweet.referencedTweets.isEmpty {
-                await getTweets()
+                await tweet.getReferencedTweets()
+                await tweet.getReplies()
             }
         }
         .navigationBarTitle("Conversation", displayMode: .inline)
-    }
-
-    func getTweets() async {
-        do {
-            try await tweet.getReferencedTweets()
-            try await tweet.getReplies()
-        } catch {
-            print(error)
-            networkErrorAlertMessage = error.localizedDescription
-            networkErrorAlertIsPresented = true
-        }
-    }
-
-    func networkErrorAlert() -> Alert {
-        return Alert(title: Text("Network Error"),
-                     message: Text(networkErrorAlertMessage),
-                     dismissButton: .default(Text("OK")))
     }
 
 }
