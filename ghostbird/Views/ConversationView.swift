@@ -39,26 +39,15 @@ struct ConversationView: View {
         .alert(isPresented: $networkErrorAlertIsPresented, content: networkErrorAlert)
         .task {
             if tweet.replies.isEmpty && tweet.referencedTweets.isEmpty {
-                await getInitialTweets()
+                await getTweets()
             }
         }
         .navigationBarTitle("Conversation", displayMode: .inline)
     }
 
-    func getInitialTweets() async {
+    func getTweets() async {
         do {
-//            try await tweet.getTweet()
             try await tweet.getReferencedTweets()
-            try await tweet.getReplies()
-        } catch {
-            print(error)
-            networkErrorAlertMessage = error.localizedDescription
-            networkErrorAlertIsPresented = true
-        }
-    }
-
-    func getMoreReplies() async {
-        do {
             try await tweet.getReplies()
         } catch {
             print(error)
@@ -72,16 +61,6 @@ struct ConversationView: View {
                      message: Text(networkErrorAlertMessage),
                      dismissButton: .default(Text("OK")))
     }
-
-//    func getTweets(type: Conversation.LoadType) async {
-//        do {
-//            try await tweet.getConversationTweets(type: type)
-//        } catch {
-//            print(error)
-//            networkErrorAlert.message = error.localizedDescription
-//            networkErrorAlertIsPresented = true
-//        }
-//    }
 
 }
 

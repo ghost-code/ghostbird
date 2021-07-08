@@ -41,13 +41,10 @@ extension Tweet {
             for tweet in referencedTweets {
                 tweets.insert(tweet, at: 0)
                 let referencedTweetIDs = tweet.referencedTweetIDs
-
-                tweets.append(contentsOf: try await getReferencedTweets(for: referencedTweetIDs))
+                tweets.insert(contentsOf: try await getReferencedTweets(for: referencedTweetIDs), at: 0)
             }
         }
-        return tweets.sorted {
-            $0.date < $1.date // TODO: Might not be needed?
-        }
+        return tweets
     }
 
     // TODO: This destroys twitter api tweet caps on viral tweets and can be slow
@@ -71,14 +68,14 @@ extension Tweet {
 
         for apiTweet in data {
             guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return [] }
-            replies.append(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser))
+            replies.insert(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser), at: 0)
         }
 
         if let nextToken = newNextToken {
-            replies.append(contentsOf: try await getReplies(nextToken: nextToken))
+            replies.insert(contentsOf: try await getReplies(nextToken: nextToken), at: 0)
         }
 
-        return replies.reversed()
+        return replies
     }
 
     // TODO: get thread

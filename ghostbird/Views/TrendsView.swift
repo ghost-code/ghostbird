@@ -17,12 +17,7 @@ struct TrendsView: View {
     var body: some View {
         List(trends.trendsCollection) { trend in
             NavigationLink(destination: SearchResultsView(searchResults: trend.searchResults)) {
-                VStack(alignment: .leading) {
-                    Text(String(trend.position) + " " + trend.name)
-                    if let tweetVolume = trend.tweetVolume {
-                        Text(String(tweetVolume))
-                    }
-                }
+                TrendListItemView(trend: trend)
             }
         }
         .task {
@@ -48,6 +43,21 @@ struct TrendsView: View {
         return Alert(title: Text("Network Error"),
                      message: Text(networkErrorAlertMessage),
                      dismissButton: .default(Text("OK")))
+    }
+
+}
+
+struct TrendListItemView: View {
+
+    let trend: Trend
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(String(trend.position) + " " + trend.name)
+            if let tweetVolume = trend.tweetVolume {
+                Text(String(tweetVolume))
+            }
+        }
     }
 
 }

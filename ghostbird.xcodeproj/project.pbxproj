@@ -21,7 +21,6 @@
 		7D25AB492690C76300AAD063 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB482690C76300AAD063 /* ConversationView.swift */; };
 		7D25AB4B2690DA2800AAD063 /* TwitterAPI+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB4A2690DA2800AAD063 /* TwitterAPI+Token.swift */; };
 		7D25AB4D2691043400AAD063 /* TwitterAPI+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB4C2691043400AAD063 /* TwitterAPI+Keys.swift */; };
-		7D25AB5126912FD000AAD063 /* TweetDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB5026912FD000AAD063 /* TweetDetailsView.swift */; };
 		7D25AB532693DF2F00AAD063 /* TwitterAPI+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB522693DF2F00AAD063 /* TwitterAPI+Search.swift */; };
 		7D25AB552693E01100AAD063 /* TwitterAPI+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB542693E01100AAD063 /* TwitterAPI+User.swift */; };
 		7D25AB572693E0ED00AAD063 /* TwitterAPI+Trends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB562693E0ED00AAD063 /* TwitterAPI+Trends.swift */; };
@@ -29,7 +28,6 @@
 		7D25AB5C26940CAA00AAD063 /* URLRequest+HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB5B26940CAA00AAD063 /* URLRequest+HTTPMethod.swift */; };
 		7D25AB5E26940CEB00AAD063 /* TwitterAPI+APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB5D26940CEB00AAD063 /* TwitterAPI+APIError.swift */; };
 		7D25AB602694C7ED00AAD063 /* Date+agoString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB5F2694C7ED00AAD063 /* Date+agoString.swift */; };
-		7D25AB622694C8CD00AAD063 /* NetworkErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB612694C8CD00AAD063 /* NetworkErrorAlert.swift */; };
 		7D25AB662694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB652694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift */; };
 		7D5CD36626964D9D002D54BA /* Tweet+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD36526964D9D002D54BA /* Tweet+API.swift */; };
 		7D5CD36826967337002D54BA /* SearchResults+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD36726967337002D54BA /* SearchResults+API.swift */; };
@@ -58,7 +56,6 @@
 		7D25AB482690C76300AAD063 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
 		7D25AB4A2690DA2800AAD063 /* TwitterAPI+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+Token.swift"; sourceTree = "<group>"; };
 		7D25AB4C2691043400AAD063 /* TwitterAPI+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+Keys.swift"; sourceTree = "<group>"; };
-		7D25AB5026912FD000AAD063 /* TweetDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetDetailsView.swift; sourceTree = "<group>"; };
 		7D25AB522693DF2F00AAD063 /* TwitterAPI+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+Search.swift"; sourceTree = "<group>"; };
 		7D25AB542693E01100AAD063 /* TwitterAPI+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+User.swift"; sourceTree = "<group>"; };
 		7D25AB562693E0ED00AAD063 /* TwitterAPI+Trends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+Trends.swift"; sourceTree = "<group>"; };
@@ -66,7 +63,6 @@
 		7D25AB5B26940CAA00AAD063 /* URLRequest+HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+HTTPMethod.swift"; sourceTree = "<group>"; };
 		7D25AB5D26940CEB00AAD063 /* TwitterAPI+APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+APIError.swift"; sourceTree = "<group>"; };
 		7D25AB5F2694C7ED00AAD063 /* Date+agoString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+agoString.swift"; sourceTree = "<group>"; };
-		7D25AB612694C8CD00AAD063 /* NetworkErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorAlert.swift; sourceTree = "<group>"; };
 		7D25AB652694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ISO8601DateFormatter+twitter.swift"; sourceTree = "<group>"; };
 		7D5CD36526964D9D002D54BA /* Tweet+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tweet+API.swift"; sourceTree = "<group>"; };
 		7D5CD36726967337002D54BA /* SearchResults+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResults+API.swift"; sourceTree = "<group>"; };
@@ -153,8 +149,6 @@
 				7D25AB36268EC66E00AAD063 /* SearchResultsView.swift */,
 				7D25AB482690C76300AAD063 /* ConversationView.swift */,
 				7D25AB3F268FDE3200AAD063 /* TweetView.swift */,
-				7D25AB5026912FD000AAD063 /* TweetDetailsView.swift */,
-				7D25AB612694C8CD00AAD063 /* NetworkErrorAlert.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,14 +276,12 @@
 				7D5CD36A2696761A002D54BA /* User+API.swift in Sources */,
 				7D25AB662694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift in Sources */,
 				7D25AB572693E0ED00AAD063 /* TwitterAPI+Trends.swift in Sources */,
-				7D25AB5126912FD000AAD063 /* TweetDetailsView.swift in Sources */,
 				7D25AB552693E01100AAD063 /* TwitterAPI+User.swift in Sources */,
 				7D25AB37268EC66E00AAD063 /* SearchResultsView.swift in Sources */,
 				7D5CD3702696AC19002D54BA /* Trend.swift in Sources */,
 				7D5CD36E2696AC13002D54BA /* Trends.swift in Sources */,
 				7D25AB35268EC1B000AAD063 /* SearchResults.swift in Sources */,
 				7D25AB14268E70C100AAD063 /* ghostbirdApp.swift in Sources */,
-				7D25AB622694C8CD00AAD063 /* NetworkErrorAlert.swift in Sources */,
 				7D25AB4B2690DA2800AAD063 /* TwitterAPI+Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

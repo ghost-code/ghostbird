@@ -20,6 +20,5 @@ extension URLRequest {
         self = .init(url: url)
         httpMethod = method.rawValue
     }
+
 }
-
-

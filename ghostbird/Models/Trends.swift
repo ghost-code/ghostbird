@@ -9,6 +9,7 @@ import Foundation
 
 @MainActor
 class Trends: ObservableObject {
+
     @Published var trendsCollection: [Trend] = []
 
     let woeid: Int
@@ -23,8 +24,9 @@ class Trends: ObservableObject {
         let apiTrends = try await api.getTrends(for: woeid).trends
         var trends: [Trend] = []
         for i in 0..<apiTrends.count {
-            trends.append(Trend(api: api, apiTrend: apiTrends[i], position: i))
+            trends.append(Trend(api: api, apiTrend: apiTrends[i], position: i + 1))
         }
         trendsCollection = trends
     }
+    
 }

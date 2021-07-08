@@ -10,10 +10,6 @@ import Foundation
 @MainActor
 class SearchResults: ObservableObject, Identifiable {
 
-    enum LoadType {
-        case initial, newer, older
-    }
-
     @Published var tweets: [Tweet] = []
 
     let api: TwitterAPIProtocol
