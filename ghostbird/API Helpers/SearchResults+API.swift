@@ -16,36 +16,31 @@ extension SearchResults {
                   query: apiTrend.query.removingPercentEncoding! + " -is:retweet")
     }
 
+    static func tweets(for apiSearchResults: TwitterAPI.Models.Search, api: TwitterAPIProtocol) -> [Tweet] {
+        guard let data = apiSearchResults.data,
+              let users = apiSearchResults.includes?.users else { return [] }
+
+        var tweets: [Tweet] = []
+        for apiTweet in data {
+            guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return [] }
+            tweets.append(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser))
+        }
+        return tweets
+    }
+
     func getTweets() async throws {
         let searchResults = try await api.getSearchResults(forQuery: query,
                                                            sinceID: nil,
                                                            nextToken: nil)
-
-        guard let data = searchResults.data, let users = searchResults.includes?.users else { return }
-
-        var tweets: [Tweet] = []
-        for apiTweet in data {
-            guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return }
-            tweets.append(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser))
-        }
-
-        self.tweets = tweets
+        olderTweetsToken = searchResults.meta.next_token
+        self.tweets = SearchResults.tweets(for: searchResults, api: api)
     }
 
     func getNewerTweets() async throws {
         let searchResults = try await api.getSearchResults(forQuery: query,
                                                            sinceID: tweets.first?.id,
                                                            nextToken: nil)
-
-        guard let data = searchResults.data, let users = searchResults.includes?.users else { return }
-
-        var newerTweets: [Tweet] = []
-        for apiTweet in data {
-            guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return }
-            newerTweets.append(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser))
-        }
-
-        self.tweets.insert(contentsOf: newerTweets, at: 0)
+        self.tweets.insert(contentsOf: SearchResults.tweets(for: searchResults, api: api), at: 0)
     }
 
     func getOlderTweets() async throws {
@@ -53,16 +48,7 @@ extension SearchResults {
                                                            sinceID: nil,
                                                            nextToken: olderTweetsToken)
         self.olderTweetsToken = searchResults.meta.next_token
-
-        guard let data = searchResults.data, let users = searchResults.includes?.users else { return }
-
-        var olderTweets: [Tweet] = []
-        for apiTweet in data {
-            guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return }
-            olderTweets.append(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser))
-        }
-
-        tweets.append(contentsOf: olderTweets)
+        tweets.append(contentsOf: SearchResults.tweets(for: searchResults, api: api))
     }
-    
+
 }

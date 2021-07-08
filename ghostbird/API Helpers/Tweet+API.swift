@@ -22,7 +22,7 @@ extension Tweet {
                   referencedTweetIDs: apiTweetData.referenced_tweets?.map { $0.id })
     }
 
-    private static func tweets(for apiTweets: TwitterAPI.Models.Tweets, api: TwitterAPIProtocol) -> [Tweet]? {
+    static func tweets(for apiTweets: TwitterAPI.Models.Tweets, api: TwitterAPIProtocol) -> [Tweet]? {
         var tweets: [Tweet] = []
         let apiTweetsData = apiTweets.data
         for apiTweetData in apiTweetsData {

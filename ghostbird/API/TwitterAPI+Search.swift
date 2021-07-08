@@ -27,7 +27,7 @@ extension TwitterAPI {
         queryItems.append(.init(name: "expansions", value: "author_id,referenced_tweets.id,referenced_tweets.id.author_id"))
         queryItems.append(.init(name: "user.fields", value: "profile_image_url,username,name,verified"))
         queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,referenced_tweets,reply_settings"))
-        queryItems.append(.init(name: "max_results", value: "100"))
+        queryItems.append(.init(name: "max_results", value: "10"))
         
         return try await performRequest(method: .get,
                                         path: "/2/tweets/search/recent",

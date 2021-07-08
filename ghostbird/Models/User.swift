@@ -8,6 +8,7 @@
 import Foundation
 
 struct User: Identifiable {
+
     let id: String
     let name: String
     let userName: String
@@ -19,4 +20,5 @@ struct User: Identifiable {
         self.userName = apiUser.username
         self.imageURL = apiUser.profile_image_url
     }
+
 }

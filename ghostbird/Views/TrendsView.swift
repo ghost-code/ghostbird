@@ -7,23 +7,26 @@
 
 import SwiftUI
 
-struct TrendsCollectionView: View {
+struct TrendsView: View {
 
-    @ObservedObject var trendsCollection: TrendsCollection
+    @ObservedObject var trends: Trends
 
     @State var networkErrorAlertIsPresented: Bool = false
     @State var networkErrorAlertMessage: String = ""
 
     var body: some View {
-        List(trendsCollection.trendSearchResults) { searchResults in
-            NavigationLink(destination: SearchResultsView(searchResults: searchResults)) {
+        List(trends.trendsCollection) { trend in
+            NavigationLink(destination: SearchResultsView(searchResults: trend.searchResults)) {
                 VStack(alignment: .leading) {
-                    Text(searchResults.name)
+                    Text(String(trend.position) + " " + trend.name)
+                    if let tweetVolume = trend.tweetVolume {
+                        Text(String(tweetVolume))
+                    }
                 }
             }
         }
         .task {
-            if trendsCollection.trendSearchResults.isEmpty {
+            if trends.trendsCollection.isEmpty {
                 await updateTrendsAction()
             }
         }
@@ -34,7 +37,7 @@ struct TrendsCollectionView: View {
 
     func updateTrendsAction() async {
         do {
-            try await trendsCollection.updateTrends()
+            try await trends.getTrends()
         } catch {
             networkErrorAlertMessage = error.localizedDescription
             networkErrorAlertIsPresented = true

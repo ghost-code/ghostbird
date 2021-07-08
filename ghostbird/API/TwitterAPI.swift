@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TwitterAPIProtocol {
-    func getTrends(for id: String?) async throws -> TwitterAPI.Models.Trends
+    func getTrends(for woeid: Int) async throws -> TwitterAPI.Models.Trends
     func getSearchResults(forQuery query: String,
                           sinceID: String?,
                           nextToken: String?) async throws -> TwitterAPI.Models.Search

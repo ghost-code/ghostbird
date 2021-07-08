@@ -20,10 +20,12 @@ struct SearchResultsView: View {
                     TweetView(tweet: tweet)
                 }
             }
-            Button {
-                async { await getOlderTweetsAction() }
-            } label: {
-                Text("Load older tweets")
+            if !searchResults.tweets.isEmpty {
+                Button {
+                    async { await getOlderTweetsAction() }
+                } label: {
+                    Text("Load older tweets")
+                }
             }
         }
         .listStyle(.plain)

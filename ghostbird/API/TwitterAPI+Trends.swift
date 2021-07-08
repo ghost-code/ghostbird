@@ -9,10 +9,10 @@ import Foundation
 
 extension TwitterAPI {
 
-    func getTrends(for locationID: String?) async throws -> TwitterAPI.Models.Trends {
+    func getTrends(for woeid: Int) async throws -> TwitterAPI.Models.Trends {
         var queryItems: [URLQueryItem] = []
 
-        queryItems.append(.init(name: "id", value: locationID ?? "1"))
+        queryItems.append(.init(name: "id", value: String(woeid)))
 
         return try await performRequest(method: .get,
                                         path: "/1.1/trends/place.json",

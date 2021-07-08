@@ -14,8 +14,8 @@ struct ghostbirdApp: App {
         WindowGroup {
             NavigationView {
                 let keys = TwitterAPI.Keys(key: TwitterKeys.key, secret: TwitterKeys.secret)
-                let trendsCollection = TrendsCollection(api: TwitterAPI(keys: keys))
-                TrendsCollectionView(trendsCollection: trendsCollection)
+                let trends = Trends(api: TwitterAPI(keys: keys), woeid: 23424977)
+                TrendsView(trends: trends)
             }
         }
     }
