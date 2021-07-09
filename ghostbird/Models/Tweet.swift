@@ -22,6 +22,7 @@ class Tweet: ObservableObject, Identifiable {
     let date: Date
     let referencedTweetIDs: [String]
     let metrics: Metrics
+    let hasReferencedTweets: Bool
 
     var activeError: Error? { didSet { errorIsActive = activeError != nil } }
 
@@ -31,6 +32,7 @@ class Tweet: ObservableObject, Identifiable {
          date: Date,
          author: User,
          conversationID: String,
+         hasReferencedTweets: Bool,
          referencedTweetIDs: [String]? = nil,
          metrics: Metrics
     ) {
@@ -40,6 +42,7 @@ class Tweet: ObservableObject, Identifiable {
         self.date = date
         self.author = author
         self.conversationID = conversationID
+        self.hasReferencedTweets = hasReferencedTweets
         self.referencedTweetIDs = referencedTweetIDs ?? []
         self.metrics = metrics
     }
@@ -53,9 +56,9 @@ class Tweet: ObservableObject, Identifiable {
         }
      }
 
-    func getReplies() async {
+    func getAllReplies() async {
         do {
-            replies = try await getReplies(nextToken: nil)
+            replies = try await getReplies(nextToken: nil, recursive: true)
         } catch {
             activeError = error
             errorIsActive = true

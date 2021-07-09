@@ -73,13 +73,15 @@ struct TweetView: View {
 
     var metricsView: some View {
         HStack {
-            metricView(with: Image(systemName: "bubble.right"),
+            metricView(with: Image(systemName: tweet.hasReferencedTweets ?
+                                   "bubble.left.and.bubble.right" : "bubble.right"),
                        count: tweet.metrics.replyCount)
             metricView(with: Image(systemName: "arrow.2.squarepath"),
                        count: tweet.metrics.retweetCount)
             metricView(with: Image(systemName: "heart"),
                        count: tweet.metrics.likeCount)
         }
+        .padding(.trailing, 8)
     }
 
     func metricView(with image: Image, count: Int) -> some View {

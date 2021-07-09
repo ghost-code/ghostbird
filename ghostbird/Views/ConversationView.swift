@@ -36,7 +36,7 @@ struct ConversationView: View {
         .task {
             if tweet.replies.isEmpty && tweet.referencedTweets.isEmpty {
                 await tweet.getReferencedTweets()
-                await tweet.getReplies()
+                await tweet.getAllReplies()
             }
         }
         .navigationBarTitle("Conversation", displayMode: .inline)

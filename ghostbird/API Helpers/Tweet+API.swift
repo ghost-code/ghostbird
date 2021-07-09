@@ -28,6 +28,7 @@ extension Tweet {
                   date: ISO8601DateFormatter.twitter.date(from: apiTweetData.created_at) ?? .now,
                   author: User(apiUser: apiUser),
                   conversationID: apiTweetData.conversation_id,
+                  hasReferencedTweets: !(apiTweetData.referenced_tweets?.isEmpty ?? true),
                   referencedTweetIDs: apiTweetData.referenced_tweets?.map { $0.id },
                   metrics: Metrics.init(apiTweetMetrics: apiTweetData.public_metrics))
     }
@@ -58,7 +59,7 @@ extension Tweet {
     }
 
     // TODO: This destroys twitter api tweet caps on viral tweets and can be slow
-    func getReplies(nextToken: String?) async throws -> [Tweet] {
+    func getReplies(nextToken: String?, recursive: Bool) async throws -> [Tweet] {
 
         var replies: [Tweet] = []
         let query = "conversation_id:" + conversationID + " to:" + author.userName
@@ -81,8 +82,8 @@ extension Tweet {
             replies.insert(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser), at: 0)
         }
 
-        if let nextToken = newNextToken {
-            replies.insert(contentsOf: try await getReplies(nextToken: nextToken), at: 0)
+        if recursive, let nextToken = newNextToken {
+            replies.insert(contentsOf: try await getReplies(nextToken: nextToken, recursive: recursive), at: 0)
         }
 
         return replies
