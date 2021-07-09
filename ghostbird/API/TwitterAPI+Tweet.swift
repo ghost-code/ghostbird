@@ -12,7 +12,7 @@ extension TwitterAPI {
     func getTweets(for ids: [String]) async throws -> TwitterAPI.Models.Tweets {
         var queryItems: [URLQueryItem] = []
         queryItems.append(.init(name: "expansions", value: "referenced_tweets.id,referenced_tweets.id.author_id"))
-        queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,referenced_tweets"))
+        queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,public_metrics,referenced_tweets"))
 
         let idsString = ids.map { String($0) }.joined(separator: ",")
 
@@ -26,7 +26,7 @@ extension TwitterAPI {
     func getTweets(for id: String) async throws -> TwitterAPI.Models.Tweet {
         var queryItems: [URLQueryItem] = []
         queryItems.append(.init(name: "expansions", value: "referenced_tweets.id,referenced_tweets.id.author_id"))
-        queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,referenced_tweets"))
+        queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,public_metrics,referenced_tweets"))
 
         return try await performRequest(method: .get,
                                         path: "/2/tweets/" + id,
@@ -54,14 +54,16 @@ extension TwitterAPI.Models {
             let conversation_id: String
             let text: String
             let created_at: String
+            let public_metrics: PublicMetrics
+
+            struct PublicMetrics: Decodable {
+                let retweet_count: Int
+                let reply_count: Int
+                let like_count: Int
+                let quote_count: Int
+            }
 
             struct ReferencedTweet: Decodable {
-
-                enum ReferenceType: String, Decodable {
-                    case reply = "replied_to"
-                    case retweet = "is_retweet"
-                }
-
                 let type: String
                 let id: String
             }

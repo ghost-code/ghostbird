@@ -21,6 +21,7 @@ class Tweet: ObservableObject, Identifiable {
     let author: User
     let date: Date
     let referencedTweetIDs: [String]
+    let metrics: Metrics
 
     var activeError: Error? { didSet { errorIsActive = activeError != nil } }
 
@@ -30,7 +31,8 @@ class Tweet: ObservableObject, Identifiable {
          date: Date,
          author: User,
          conversationID: String,
-         referencedTweetIDs: [String]? = nil
+         referencedTweetIDs: [String]? = nil,
+         metrics: Metrics
     ) {
         self.api = api
         self.id = id
@@ -39,6 +41,7 @@ class Tweet: ObservableObject, Identifiable {
         self.author = author
         self.conversationID = conversationID
         self.referencedTweetIDs = referencedTweetIDs ?? []
+        self.metrics = metrics
     }
 
     func getReferencedTweets() async {
@@ -57,6 +60,17 @@ class Tweet: ObservableObject, Identifiable {
             activeError = error
             errorIsActive = true
         }
+    }
+
+}
+
+extension Tweet {
+
+    struct Metrics {
+        let retweetCount: Int
+        let replyCount: Int
+        let likeCount: Int
+        let quoteCount: Int
     }
 
 }

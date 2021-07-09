@@ -7,6 +7,15 @@
 
 import Foundation
 
+extension Tweet.Metrics {
+    init(apiTweetMetrics: TwitterAPI.Models.Tweet.Data.PublicMetrics) {
+        self.init(retweetCount: apiTweetMetrics.retweet_count,
+                  replyCount: apiTweetMetrics.reply_count,
+                  likeCount: apiTweetMetrics.like_count,
+                  quoteCount: apiTweetMetrics.quote_count)
+    }
+}
+
 extension Tweet {
 
     convenience init(api: TwitterAPIProtocol,
@@ -19,7 +28,8 @@ extension Tweet {
                   date: ISO8601DateFormatter.twitter.date(from: apiTweetData.created_at) ?? .now,
                   author: User(apiUser: apiUser),
                   conversationID: apiTweetData.conversation_id,
-                  referencedTweetIDs: apiTweetData.referenced_tweets?.map { $0.id })
+                  referencedTweetIDs: apiTweetData.referenced_tweets?.map { $0.id },
+                  metrics: Metrics.init(apiTweetMetrics: apiTweetData.public_metrics))
     }
 
     static func tweets(for apiTweets: TwitterAPI.Models.Tweets, api: TwitterAPIProtocol) -> [Tweet]? {
