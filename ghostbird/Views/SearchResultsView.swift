@@ -14,17 +14,9 @@ struct SearchResultsView: View {
     var body: some View {
         List {
             ForEach(searchResults.tweets) { tweet in
-                NavigationLink(destination: ConversationView(tweet: tweet)) {
-                    TweetView(tweet: tweet)
-                }
+                TweetView(tweet: tweet)
             }
-            if !searchResults.tweets.isEmpty {
-                Button {
-                    async { await searchResults.getOlderTweets() }
-                } label: {
-                    Text("Load older tweets")
-                }
-            }
+            loadMoreTweetsView
         }
         .listStyle(.plain)
         .task {
@@ -38,6 +30,19 @@ struct SearchResultsView: View {
         .navigationBarTitle(searchResults.name, displayMode: .inline)
         .alert(isPresented: $searchResults.errorIsActive) {
             NetworkErrorAlert.alert(for: searchResults.activeError)
+        }
+    }
+
+    @ViewBuilder
+    var loadMoreTweetsView: some View {
+        if !searchResults.tweets.isEmpty {
+            Button {
+                async { await searchResults.getOlderTweets() }
+            } label: {
+                Text("Load older tweets")
+            }
+        } else {
+            EmptyView()
         }
     }
     

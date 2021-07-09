@@ -14,19 +14,24 @@ struct TweetView: View {
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
             userImage
-
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     nameView
                     Spacer()
                     dateView
                         .fixedSize()
                 }
+                Spacer().frame(height: 4)
                 textView
+                Spacer().frame(height: 8)
                 metricsView
             }
+            hiddenNavigationLink
         }
-        .padding(4)
+        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 4))
+        .overlay(Color("SeparatorColor").frame(height: 0.5), alignment: .bottom)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 
     var textView: some View {
@@ -40,13 +45,12 @@ struct TweetView: View {
         AsyncImage(url: tweet.author.imageURL) { image in
             image
                 .resizable()
-                .frame(width: 32, height: 32)
                 .clipShape(Circle())
         } placeholder: {
             Circle()
                 .fill(Color.gray)
-                .frame(width: 32, height: 32)
         }
+        .frame(width: 40, height: 40)
     }
 
     var nameView: some View {
@@ -68,28 +72,31 @@ struct TweetView: View {
     }
 
     var metricsView: some View {
-
         HStack {
-            HStack(spacing: 4) {
-                Image(systemName: "bubble.right")
-                Text("\(tweet.metrics.replyCount)")
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            HStack(spacing: 4) {
-                Image(systemName: "arrow.2.squarepath")
-                Text("\(tweet.metrics.retweetCount)")
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            HStack(spacing: 4) {
-                Image(systemName: "heart")
-                Text("\(tweet.metrics.likeCount)")
-            }
-
-            .frame(maxWidth: .infinity, alignment: .leading)
+            metricView(with: Image(systemName: "bubble.right"),
+                       count: tweet.metrics.replyCount)
+            metricView(with: Image(systemName: "arrow.2.squarepath"),
+                       count: tweet.metrics.retweetCount)
+            metricView(with: Image(systemName: "heart"),
+                       count: tweet.metrics.likeCount)
         }
-        .font(Font.caption.weight(.semibold))
+    }
+
+    func metricView(with image: Image, count: Int) -> some View {
+        HStack(spacing: 4) {
+            image
+            Text("\(count)")
+        }
+        .font(Font.caption)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    var hiddenNavigationLink: some View {
+        NavigationLink(destination: ConversationView(tweet: tweet)) {
+            EmptyView()
+        }
+        .opacity(0)
+        .frame(width: 0)
     }
 
 }

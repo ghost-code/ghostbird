@@ -15,19 +15,16 @@ struct ConversationView: View {
             List {
                 Section {
                     ForEach(tweet.referencedTweets) { refrencedTweet in
-                        NavigationLink(destination: ConversationView(tweet: refrencedTweet)) {
-                            TweetView(tweet: refrencedTweet)
-                        }
+                        TweetView(tweet: refrencedTweet)
                     }
                 }
                 Section {
+                    // TODO: make non-tappable
                     TweetView(tweet: tweet)
                 }
                 Section {
                     ForEach(tweet.replies) { reply in
-                        NavigationLink(destination: ConversationView(tweet: reply)) {
-                            TweetView(tweet: reply)
-                        }
+                        TweetView(tweet: reply)
                     }
                 }
             }
