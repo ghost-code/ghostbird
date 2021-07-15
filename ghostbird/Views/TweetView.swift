@@ -28,6 +28,7 @@ struct TweetView: View {
             }
             hiddenNavigationLink
         }
+        .foregroundColor(.black)
         .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 4))
         .overlay(Color("SeparatorColor").frame(height: 0.5), alignment: .bottom)
         .listRowSeparator(.hidden)

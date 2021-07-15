@@ -18,15 +18,13 @@ struct ConversationView: View {
                         TweetView(tweet: refrencedTweet)
                     }
                 }
-                Section {
-                    // TODO: make non-tappable
-                    TweetView(tweet: tweet)
-                }
-                Section {
+                Section(content: {
                     ForEach(tweet.replies) { reply in
                         TweetView(tweet: reply)
                     }
-                }
+                }, header: {
+                    TweetView(tweet: tweet)
+                })
             }
             .listStyle(.plain)
         }
