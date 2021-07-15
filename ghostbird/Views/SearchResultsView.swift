@@ -37,7 +37,9 @@ struct SearchResultsView: View {
     var loadMoreTweetsView: some View {
         if !searchResults.tweets.isEmpty {
             Button {
-                async { await searchResults.getOlderTweets() }
+                Task(priority: .userInitiated) {
+                    await searchResults.getOlderTweets()
+                }
             } label: {
                 Text("Load older tweets")
             }
