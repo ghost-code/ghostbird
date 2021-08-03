@@ -50,7 +50,6 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
         textContainer.lineFragmentPadding = 0
         textContainer.maximumNumberOfLines = 0
         layoutManager.addTextContainer(textContainer)
-        backgroundColor = .gray.withAlphaComponent(0.2)
         isOpaque = false
     }
 

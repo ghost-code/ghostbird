@@ -22,7 +22,7 @@ struct TweetView: View {
                         .fixedSize()
                 }
                 Spacer().frame(height: 4)
-                textView
+                TweetTextView(tweet.tweetText)
                 Spacer().frame(height: 8)
                 metricsView
             }
@@ -33,11 +33,6 @@ struct TweetView: View {
         .overlay(Color("SeparatorColor").frame(height: 0.5), alignment: .bottom)
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-    }
-
-    var textView: some View {
-        TweetTextView(tweet.tweetText)
-//            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var userImage: some View {
