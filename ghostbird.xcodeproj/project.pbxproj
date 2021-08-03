@@ -37,6 +37,13 @@
 		7D5CD3702696AC19002D54BA /* Trend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD36F2696AC19002D54BA /* Trend.swift */; };
 		7D5CD3722696B06F002D54BA /* Trend+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD3712696B06F002D54BA /* Trend+API.swift */; };
 		7D5CD3762697B3F7002D54BA /* NetworkErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD3752697B3F7002D54BA /* NetworkErrorAlert.swift */; };
+		7D940BCD26B834D8008E7503 /* TweetTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D940BCC26B834D8008E7503 /* TweetTextView.swift */; };
+		7D940BCF26B83510008E7503 /* RegularExpression+Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D940BCE26B83510008E7503 /* RegularExpression+Twitter.swift */; };
+		7D940BD126B8356F008E7503 /* TweetTextElementDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D940BD026B8356F008E7503 /* TweetTextElementDetector.swift */; };
+		7D940BD426B835EB008E7503 /* TweetTextElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D940BD326B835EB008E7503 /* TweetTextElement.swift */; };
+		7D940BD826B83973008E7503 /* TweetTextViewOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D940BD726B83973008E7503 /* TweetTextViewOverlay.swift */; };
+		7DFD90AA26B8BF4E00073E6E /* TweetText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD90A926B8BF4E00073E6E /* TweetText.swift */; };
+		7DFD90AC26B8C16D00073E6E /* TweetTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD90AB26B8C16D00073E6E /* TweetTextLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +80,13 @@
 		7D5CD36F2696AC19002D54BA /* Trend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trend.swift; sourceTree = "<group>"; };
 		7D5CD3712696B06F002D54BA /* Trend+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trend+API.swift"; sourceTree = "<group>"; };
 		7D5CD3752697B3F7002D54BA /* NetworkErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorAlert.swift; sourceTree = "<group>"; };
+		7D940BCC26B834D8008E7503 /* TweetTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextView.swift; sourceTree = "<group>"; };
+		7D940BCE26B83510008E7503 /* RegularExpression+Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RegularExpression+Twitter.swift"; sourceTree = "<group>"; };
+		7D940BD026B8356F008E7503 /* TweetTextElementDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextElementDetector.swift; sourceTree = "<group>"; };
+		7D940BD326B835EB008E7503 /* TweetTextElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextElement.swift; sourceTree = "<group>"; };
+		7D940BD726B83973008E7503 /* TweetTextViewOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextViewOverlay.swift; sourceTree = "<group>"; };
+		7DFD90A926B8BF4E00073E6E /* TweetText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetText.swift; sourceTree = "<group>"; };
+		7DFD90AB26B8C16D00073E6E /* TweetTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +122,7 @@
 				7D25AB41268FE71600AAD063 /* ghostbird.entitlements */,
 				7D25AB25268E73B600AAD063 /* ghostbird-Info.plist */,
 				7D25AB13268E70C100AAD063 /* ghostbirdApp.swift */,
+				7D940BD226B835CF008E7503 /* TweetTextElement */,
 				7D25AB2B268EAB9B00AAD063 /* Views */,
 				7D25AB3A268F8D1B00AAD063 /* Models */,
 				7D5CD36426964D73002D54BA /* API Helpers */,
@@ -152,6 +167,7 @@
 				7D25AB482690C76300AAD063 /* ConversationView.swift */,
 				7D25AB3F268FDE3200AAD063 /* TweetView.swift */,
 				7D5CD3752697B3F7002D54BA /* NetworkErrorAlert.swift */,
+				7D940BD926B839C3008E7503 /* TweetTextView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -163,6 +179,7 @@
 				7D5CD36F2696AC19002D54BA /* Trend.swift */,
 				7D25AB34268EC1B000AAD063 /* SearchResults.swift */,
 				7D25AB3B268FD85500AAD063 /* Tweet.swift */,
+				7DFD90A926B8BF4E00073E6E /* TweetText.swift */,
 				7D25AB3D268FD86300AAD063 /* User.swift */,
 			);
 			path = Models;
@@ -173,6 +190,7 @@
 			children = (
 				7D25AB5F2694C7ED00AAD063 /* Date+agoString.swift */,
 				7D25AB652694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift */,
+				7D940BCE26B83510008E7503 /* RegularExpression+Twitter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -187,6 +205,25 @@
 				7D5CD36B2696768E002D54BA /* TwitterKeys.swift */,
 			);
 			path = "API Helpers";
+			sourceTree = "<group>";
+		};
+		7D940BD226B835CF008E7503 /* TweetTextElement */ = {
+			isa = PBXGroup;
+			children = (
+				7D940BD026B8356F008E7503 /* TweetTextElementDetector.swift */,
+				7D940BD326B835EB008E7503 /* TweetTextElement.swift */,
+			);
+			path = TweetTextElement;
+			sourceTree = "<group>";
+		};
+		7D940BD926B839C3008E7503 /* TweetTextView */ = {
+			isa = PBXGroup;
+			children = (
+				7D940BCC26B834D8008E7503 /* TweetTextView.swift */,
+				7DFD90AB26B8C16D00073E6E /* TweetTextLabel.swift */,
+				7D940BD726B83973008E7503 /* TweetTextViewOverlay.swift */,
+			);
+			path = TweetTextView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,12 +302,16 @@
 				7D25AB39268F820500AAD063 /* ErrorResponse.swift in Sources */,
 				7D25AB5E26940CEB00AAD063 /* TwitterAPI+APIError.swift in Sources */,
 				7D25AB3C268FD85500AAD063 /* Tweet.swift in Sources */,
+				7DFD90AA26B8BF4E00073E6E /* TweetText.swift in Sources */,
 				7D25AB592693E30200AAD063 /* TwitterAPI+Tweet.swift in Sources */,
+				7DFD90AC26B8C16D00073E6E /* TweetTextLabel.swift in Sources */,
 				7D25AB5C26940CAA00AAD063 /* URLRequest+HTTPMethod.swift in Sources */,
 				7D5CD36C2696768E002D54BA /* TwitterKeys.swift in Sources */,
+				7D940BD426B835EB008E7503 /* TweetTextElement.swift in Sources */,
 				7D25AB2D268EABA900AAD063 /* TrendsView.swift in Sources */,
 				7D25AB3E268FD86300AAD063 /* User.swift in Sources */,
 				7D25AB40268FDE3200AAD063 /* TweetView.swift in Sources */,
+				7D940BCD26B834D8008E7503 /* TweetTextView.swift in Sources */,
 				7D5CD36626964D9D002D54BA /* Tweet+API.swift in Sources */,
 				7D25AB602694C7ED00AAD063 /* Date+agoString.swift in Sources */,
 				7D5CD36826967337002D54BA /* SearchResults+API.swift in Sources */,
@@ -278,9 +319,12 @@
 				7D25AB532693DF2F00AAD063 /* TwitterAPI+Search.swift in Sources */,
 				7D5CD36A2696761A002D54BA /* User+API.swift in Sources */,
 				7D25AB662694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift in Sources */,
+				7D940BCF26B83510008E7503 /* RegularExpression+Twitter.swift in Sources */,
 				7D25AB572693E0ED00AAD063 /* TwitterAPI+Trends.swift in Sources */,
 				7D25AB552693E01100AAD063 /* TwitterAPI+User.swift in Sources */,
 				7D25AB37268EC66E00AAD063 /* SearchResultsView.swift in Sources */,
+				7D940BD826B83973008E7503 /* TweetTextViewOverlay.swift in Sources */,
+				7D940BD126B8356F008E7503 /* TweetTextElementDetector.swift in Sources */,
 				7D5CD3762697B3F7002D54BA /* NetworkErrorAlert.swift in Sources */,
 				7D5CD3702696AC19002D54BA /* Trend.swift in Sources */,
 				7D5CD36E2696AC13002D54BA /* Trends.swift in Sources */,
@@ -345,6 +389,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -400,6 +445,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

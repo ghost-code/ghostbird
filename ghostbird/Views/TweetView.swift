@@ -36,10 +36,8 @@ struct TweetView: View {
     }
 
     var textView: some View {
-        Text(tweet.text)
-            .font(.caption)
-            .lineLimit(nil)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        TweetTextView(tweet.tweetText)
+//            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var userImage: some View {

@@ -23,6 +23,7 @@ class Tweet: ObservableObject, Identifiable {
     let referencedTweetIDs: [String]
     let metrics: Metrics
     let hasReferencedTweets: Bool
+    let tweetText: TweetText
 
     var activeError: Error? { didSet { errorIsActive = activeError != nil } }
 
@@ -45,6 +46,7 @@ class Tweet: ObservableObject, Identifiable {
         self.hasReferencedTweets = hasReferencedTweets
         self.referencedTweetIDs = referencedTweetIDs ?? []
         self.metrics = metrics
+        self.tweetText = TweetText(string: text)
     }
 
     func getReferencedTweets() async {
