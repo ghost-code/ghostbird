@@ -29,6 +29,7 @@ extension Tweet {
                   author: User(apiUser: apiUser),
                   conversationID: apiTweetData.conversation_id,
                   hasReferencedTweets: !(apiTweetData.referenced_tweets?.isEmpty ?? true),
+                  language: apiTweetData.lang,
                   referencedTweetIDs: apiTweetData.referenced_tweets?.map { $0.id },
                   metrics: Metrics.init(apiTweetMetrics: apiTweetData.public_metrics))
     }

@@ -34,6 +34,7 @@ class Tweet: ObservableObject, Identifiable {
          author: User,
          conversationID: String,
          hasReferencedTweets: Bool,
+         language: String?,
          referencedTweetIDs: [String]? = nil,
          metrics: Metrics
     ) {
@@ -46,7 +47,7 @@ class Tweet: ObservableObject, Identifiable {
         self.hasReferencedTweets = hasReferencedTweets
         self.referencedTweetIDs = referencedTweetIDs ?? []
         self.metrics = metrics
-        self.tweetText = TweetText(string: text)
+        self.tweetText = TweetText(string: text, language: language)
     }
 
     func getReferencedTweets() async {

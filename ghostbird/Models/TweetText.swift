@@ -21,23 +21,33 @@ struct TweetText {
     static var elementColor: Color = .accentColor
     static var font: Font = .headline
 
-    init(string: String) {
+    init(string: String, language: String?) {
+        
+        let isLTR: Bool
+        if let language = language {
+            isLTR =  NSLocale.characterDirection(forLanguage: language) == .leftToRight
+        } else {
+            isLTR = true
+        }
+
         self.string = string
         let elements = TweetText.detector.elements(for: string)
         self.elements = elements
         self.attributedString = TweetText.attributedString(for: string,
                                                               tweetTextElements: elements,
                                                               font: font,
-                                                              elementColor: elementColor)
+                                                              elementColor: elementColor,
+                                                              isLTR: isLTR)
     }
 
     static func attributedString(for text: String,
                                  tweetTextElements: [TweetTextElement],
                                  font: UIFont,
-                                 elementColor: UIColor) -> NSAttributedString {
+                                 elementColor: UIColor,
+                                 isLTR: Bool) -> NSAttributedString {
 
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .natural
+        paragraphStyle.alignment = isLTR ? .left : .right
         paragraphStyle.lineBreakMode = .byWordWrapping
 
         let attributes = [ NSAttributedString.Key.paragraphStyle: paragraphStyle,
