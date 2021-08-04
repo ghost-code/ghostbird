@@ -16,17 +16,16 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
     weak var delegate: TweetTextLabelDelegate?
     let layoutManager = NSLayoutManager()
     let textContainer = NSTextContainer(size: .zero)
-
-    var preferredMaxLayoutWidth: CGFloat = 320 {
+    var tappedElement: TweetTextElement? = nil {
         didSet {
-            textContainer.size = CGSize(width: preferredMaxLayoutWidth, height: .greatestFiniteMagnitude)
             setNeedsDisplay()
         }
     }
 
-    override var frame: CGRect {
+    var preferredMaxLayoutWidth: CGFloat = 320 {
         didSet {
-            setNeedsDisplay()
+            textContainer.size = CGSize(width: preferredMaxLayoutWidth, height: .greatestFiniteMagnitude)
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -69,6 +68,19 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
 
     override func draw(_ rect: CGRect) {
         let range = layoutManager.glyphRange(for: textContainer)
+
+        if let element = tappedElement {
+            for i in element.range.lowerBound..<element.range.upperBound {
+                let rect = layoutManager.boundingRect(forGlyphRange: NSRange(location: i, length: 1),
+                                                      in: textContainer)
+                    let context = UIGraphicsGetCurrentContext()
+                    UIColor.init(white: 0.5, alpha: 0.27).set()
+                    context?.addRect(rect)
+                    context?.fillPath()
+            }
+
+        }
+
         layoutManager.drawGlyphs(forGlyphRange: range, at: rect.origin)
     }
 
@@ -83,6 +95,19 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
 
     func didTapElement(element: TweetTextElement) {
         delegate?.didTapElement(element: element)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard touches.count == 1 else { return }
+        tappedElement = element(at: touches.first!.location(in: self))
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        tappedElement = nil
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        tappedElement = nil
     }
 
     private func element(at point: CGPoint) -> TweetTextElement? {

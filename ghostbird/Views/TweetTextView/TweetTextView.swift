@@ -9,8 +9,14 @@ import SwiftUI
 
 struct TweetTextView: View {
 
+    static private var lastKnownWidth: CGFloat = 320
+
     var tweetText: TweetText
-    @State var width: CGFloat = 320
+    @State var width: CGFloat = lastKnownWidth {
+        didSet {
+            TweetTextView.lastKnownWidth = width
+        }
+    }
 
     var tweetElementTapAction: ((TweetTextElement) -> Void)?
 
