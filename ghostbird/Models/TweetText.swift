@@ -52,13 +52,14 @@ struct TweetText {
         paragraphStyle.lineBreakMode = .byWordWrapping
 
         let attributes = [ NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                           NSAttributedString.Key.foregroundColor: UIColor.label,
                            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16) ]
 
         let attributedString = NSMutableAttributedString(string: text, attributes: attributes)
 
         for element in tweetTextElements {
             attributedString.addAttribute(NSAttributedString.Key.foregroundColor,
-                                          value: UIColor(TweetText.elementColor),
+                                          value: UIColor(named: "AccentColor")!,
                                           range: element.range)
         }
 
