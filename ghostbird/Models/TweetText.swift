@@ -46,6 +46,7 @@ struct TweetText {
                                  elementColor: UIColor,
                                  isLTR: Bool) -> NSAttributedString {
 
+        let text = text + "\u{0000}"
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = isLTR ? .left : .right
         paragraphStyle.lineBreakMode = .byWordWrapping
