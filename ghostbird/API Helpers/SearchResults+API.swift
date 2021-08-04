@@ -11,7 +11,6 @@ extension SearchResults {
 
     convenience init(api: TwitterAPIProtocol, apiTrend: TwitterAPI.Models.Trend) {
         self.init(api: api,
-                  id: apiTrend.name,
                   name: apiTrend.name,
                   query: apiTrend.query.removingPercentEncoding! + " -is:retweet")
     }

@@ -12,7 +12,37 @@ class Tweet: ObservableObject, Identifiable {
 
     @Published var referencedTweets: [Tweet] = []
     @Published var replies: [Tweet] = []
-    @Published var errorIsActive: Bool = false
+
+    @Published var conversationIsActive: Bool = false
+
+    @Published var errorIsActive: Bool = false {
+        didSet {
+            if !errorIsActive && activeError != nil {
+                activeError = nil
+            }
+        }
+    }
+
+    @Published var elementIsActive: Bool = false {
+        didSet {
+            if !elementIsActive && activeElement != nil{
+                activeElement = nil
+            }
+        }
+    }
+
+    var activeElement: TweetTextElement? = nil {
+        didSet {
+            elementIsActive = activeElement != nil
+        }
+    }
+
+    var activeError: Error? {
+        didSet {
+            errorIsActive = activeError != nil
+
+        }
+    }
 
     let api: TwitterAPIProtocol
     let id: String
@@ -24,8 +54,7 @@ class Tweet: ObservableObject, Identifiable {
     let metrics: Metrics
     let hasReferencedTweets: Bool
     let tweetText: TweetText
-
-    var activeError: Error? { didSet { errorIsActive = activeError != nil } }
+    let language: String?
 
     init(api: TwitterAPIProtocol,
          id: String,
@@ -47,6 +76,7 @@ class Tweet: ObservableObject, Identifiable {
         self.hasReferencedTweets = hasReferencedTweets
         self.referencedTweetIDs = referencedTweetIDs ?? []
         self.metrics = metrics
+        self.language = language
         self.tweetText = TweetText(string: text, language: language)
     }
 
@@ -66,6 +96,23 @@ class Tweet: ObservableObject, Identifiable {
             activeError = error
             errorIsActive = true
         }
+    }
+
+    func searchResults(for element: TweetTextElement) -> SearchResults {
+        SearchResults(api: api, name: element.string, query: element.string)
+    }
+
+    var copy: Tweet {
+        Tweet(api: api,
+              id: id,
+              text: text,
+              date: date,
+              author: author,
+              conversationID: conversationID,
+              hasReferencedTweets: hasReferencedTweets,
+              language: language,
+              referencedTweetIDs: referencedTweetIDs,
+              metrics: metrics)
     }
 
 }

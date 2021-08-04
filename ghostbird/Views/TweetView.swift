@@ -11,6 +11,17 @@ struct TweetView: View {
 
     @ObservedObject var tweet: Tweet
 
+    // TODO: clean this up
+    var elementDestination: some View {
+        guard let element = tweet.activeElement else { return AnyView(ConversationView(tweet: tweet.copy)) }
+        switch element.type {
+        case .hashtag:
+            return AnyView(SearchResultsView(searchResults: tweet.searchResults(for: element)))
+        default:
+            return AnyView(Text(element.string))
+        }
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
             userImage
@@ -22,7 +33,7 @@ struct TweetView: View {
                         .fixedSize()
                 }
                 Spacer().frame(height: 4)
-                TweetTextView(tweet.tweetText)
+                tweetTextView
                 Spacer().frame(height: 8)
                 metricsView
             }
@@ -32,6 +43,7 @@ struct TweetView: View {
         .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 4))
         .overlay(Color("SeparatorColor").frame(height: 0.5), alignment: .bottom)
         .listRowSeparator(.hidden)
+        .listRowBackground(Color.white)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 
@@ -45,6 +57,14 @@ struct TweetView: View {
                 .fill(Color.gray)
         }
         .frame(width: 40, height: 40)
+    }
+
+    var tweetBackgroundButton: some View {
+        Color.white
+            .onTapGesture {
+                tweet.conversationIsActive = true
+            }
+            .ignoresSafeArea()
     }
 
     var nameView: some View {
@@ -63,6 +83,13 @@ struct TweetView: View {
         Text(tweet.date.agoString)
             .font(.caption2)
             .lineLimit(1)
+    }
+
+    var tweetTextView: some View {
+        TweetTextView(tweet.tweetText,
+                      tweetElementTapAction: { element in
+            tweet.activeElement = element
+        })
     }
 
     var metricsView: some View {
@@ -88,7 +115,8 @@ struct TweetView: View {
     }
 
     var hiddenNavigationLink: some View {
-        NavigationLink(destination: ConversationView(tweet: tweet)) {
+        NavigationLink(destination: elementDestination,
+                       isActive: $tweet.elementIsActive) {
             EmptyView()
         }
         .opacity(0)

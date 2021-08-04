@@ -9,8 +9,7 @@ import Foundation
 
 struct TweetTextElement {
 
-    // TODO: remove string
-    enum ElementType: String {
+    enum ElementType {
         case url, mention, hashtag
     }
 

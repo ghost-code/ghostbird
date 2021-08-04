@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol TweetTextLabelDelegate: AnyObject {
+    func didTapElement(element: TweetTextElement)
+}
+
 class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
 
+    weak var delegate: TweetTextLabelDelegate?
     let layoutManager = NSLayoutManager()
     let textContainer = NSTextContainer(size: .zero)
 
@@ -77,7 +82,7 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
     }
 
     func didTapElement(element: TweetTextElement) {
-        print("tapped \(element.type) \"\(element.string)\"")
+        delegate?.didTapElement(element: element)
     }
 
     private func element(at point: CGPoint) -> TweetTextElement? {

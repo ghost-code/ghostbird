@@ -28,7 +28,6 @@ class Trend: Identifiable {
         self.position = position
         self.tweetVolume = tweetVolume
         self.searchResults = SearchResults(api: api,
-                                           id: name,
                                            name: name,
                                            query: query)
     }

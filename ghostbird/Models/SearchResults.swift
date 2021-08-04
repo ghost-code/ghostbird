@@ -21,9 +21,9 @@ class SearchResults: ObservableObject, Identifiable {
 
     var activeError: Error? { didSet { errorIsActive = activeError != nil } }
 
-    init(api: TwitterAPIProtocol, id: String, name: String, query: String) {
+    init(api: TwitterAPIProtocol, name: String, query: String) {
         self.api = api
-        self.id = id
+        self.id = name
         self.name = name
         self.query = query
     }
