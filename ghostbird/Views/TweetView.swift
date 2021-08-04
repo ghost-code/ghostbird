@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TweetView: View {
 
+    @Environment(\.openURL) var openURL
+
     @ObservedObject var tweet: Tweet
 
     // TODO: clean this up
@@ -39,11 +41,10 @@ struct TweetView: View {
             }
             hiddenNavigationLink
         }
-        .foregroundColor(.black)
         .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 4))
         .overlay(Color("SeparatorColor").frame(height: 0.5), alignment: .bottom)
         .listRowSeparator(.hidden)
-        .listRowBackground(Color.white)
+        .listRowBackground(Color.clear)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 
@@ -88,7 +89,12 @@ struct TweetView: View {
     var tweetTextView: some View {
         TweetTextView(tweet.tweetText,
                       tweetElementTapAction: { element in
-            tweet.activeElement = element
+            if element.type == .url {
+                guard let url = URL(string: element.string) else { return }
+                openURL(url)
+            } else {
+                tweet.activeElement = element
+            }
         })
     }
 
