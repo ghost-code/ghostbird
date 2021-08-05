@@ -11,8 +11,9 @@ extension TwitterAPI {
 
     func getTweets(for ids: [String]) async throws -> TwitterAPI.Models.Tweets {
         var queryItems: [URLQueryItem] = []
-        queryItems.append(.init(name: "expansions", value: "referenced_tweets.id,referenced_tweets.id.author_id"))
-        queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,lang,public_metrics,referenced_tweets"))
+        queryItems.append(TwitterAPI.QueryItems.expansions)
+        queryItems.append(TwitterAPI.QueryItems.userFields)
+        queryItems.append(TwitterAPI.QueryItems.tweetFields)
 
         let idsString = ids.map { String($0) }.joined(separator: ",")
 
@@ -25,8 +26,9 @@ extension TwitterAPI {
     
     func getTweets(for id: String) async throws -> TwitterAPI.Models.Tweet {
         var queryItems: [URLQueryItem] = []
-        queryItems.append(.init(name: "expansions", value: "referenced_tweets.id,referenced_tweets.id.author_id"))
-        queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,lang,public_metrics,referenced_tweets"))
+        queryItems.append(TwitterAPI.QueryItems.expansions)
+        queryItems.append(TwitterAPI.QueryItems.userFields)
+        queryItems.append(TwitterAPI.QueryItems.tweetFields)
 
         return try await performRequest(method: .get,
                                         path: "/2/tweets/" + id,
@@ -56,6 +58,7 @@ extension TwitterAPI.Models {
             let created_at: String
             let public_metrics: PublicMetrics
             let lang: String?
+            let entities: Entities?
 
             struct PublicMetrics: Decodable {
                 let retweet_count: Int
@@ -68,12 +71,63 @@ extension TwitterAPI.Models {
                 let type: String
                 let id: String
             }
+
+            struct Entities: Decodable {
+                let cashtags: [Cashtag]?
+                let hashtags: [Hashtag]?
+                let mentions: [Mention]?
+                let urls: [URLEntity]?
+                let annotations: [Annotation]?
+            }
         }
 
         struct Includes: Decodable {
             let users: [User.Data]
             let tweets: [Tweet.Data]?
         }
+    }
+
+}
+
+extension TwitterAPI.Models.Tweet.Data.Entities {
+
+    struct Mention: Decodable {
+        let start: Int
+        let end: Int
+        let username: String
+        let id: String
+    }
+
+    struct Hashtag: Decodable {
+        let start: Int
+        let end: Int
+        let tag: String
+    }
+
+    struct Annotation: Decodable {
+        let start: Int
+        let end: Int
+        let url: URL?
+        let probability: Double
+        let type: String
+        let normalized_text: String
+    }
+
+    struct Cashtag: Decodable {
+        let start: Int
+        let end: Int
+        let tag: String
+    }
+
+    struct URLEntity: Decodable {
+        let start: Int
+        let end: Int
+        let url: URL
+        let expanded_url: URL
+        let display_url: String
+        let status: Int?
+        let description: String?
+        let unwound_url: URL?
     }
 
 }

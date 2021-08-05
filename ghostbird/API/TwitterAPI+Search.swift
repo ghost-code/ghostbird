@@ -24,9 +24,9 @@ extension TwitterAPI {
         }
 
         queryItems.append(.init(name: "query", value: query))
-        queryItems.append(.init(name: "expansions", value: "author_id,referenced_tweets.id,referenced_tweets.id.author_id"))
-        queryItems.append(.init(name: "user.fields", value: "profile_image_url,username,name,verified"))
-        queryItems.append(.init(name: "tweet.fields", value: "conversation_id,created_at,lang,public_metrics,referenced_tweets,reply_settings"))
+        queryItems.append(TwitterAPI.QueryItems.expansions)
+        queryItems.append(TwitterAPI.QueryItems.userFields)
+        queryItems.append(TwitterAPI.QueryItems.tweetFields)
         queryItems.append(.init(name: "max_results", value: "10"))
         
         return try await performRequest(method: .get,

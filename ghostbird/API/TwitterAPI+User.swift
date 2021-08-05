@@ -27,12 +27,25 @@ extension TwitterAPI.Models {
         let includes: Includes
 
         struct Data: Decodable {
-            let username: String
-            let created_at: String?
+            let created_at: String
+            let description: String
+            let id: String
+            let location: String?
             let pinned_tweet_id: String?
             let profile_image_url: URL?
-            let id: String
+            let username: String
             let name: String
+            let public_metrics: PublicMetrics
+            let url: String
+            let verified: Bool
+            // let withheld ... not sure how this comes down yet
+
+            struct PublicMetrics: Decodable {
+                let followers_count: Int
+                let following_count: Int
+                let tweet_count: Int
+                let listed_count: Int
+            }
         }
 
         struct Includes: Decodable {
