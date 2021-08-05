@@ -19,6 +19,8 @@ struct TweetView: View {
         switch element.type {
         case .hashtag:
             return AnyView(SearchResultsView(searchResults: tweet.searchResults(for: element)))
+        case .mention:
+            return AnyView(UserView(user: tweet.author))
         default:
             return AnyView(Text(element.string))
         }
@@ -49,15 +51,21 @@ struct TweetView: View {
     }
 
     var userImage: some View {
-        AsyncImage(url: tweet.author.imageURL) { image in
-            image
-                .resizable()
-                .clipShape(Circle())
-        } placeholder: {
-            Circle()
-                .fill(Color.gray)
+        Button {
+            tweet.activeElement = TweetTextElement(string: tweet.author.userName,
+                                                   range: NSRange(location: 0, length: 0),
+                                                   type: .mention)
+        } label: {
+            AsyncImage(url: tweet.author.profileImageURL) { image in
+                image
+                    .resizable()
+                    .clipShape(Circle())
+            } placeholder: {
+                Circle()
+                    .fill(Color.gray)
+            }
+            .frame(width: 40, height: 40)
         }
-        .frame(width: 40, height: 40)
     }
 
     var tweetBackgroundButton: some View {

@@ -29,6 +29,8 @@
 		7D25AB5E26940CEB00AAD063 /* TwitterAPI+APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB5D26940CEB00AAD063 /* TwitterAPI+APIError.swift */; };
 		7D25AB602694C7ED00AAD063 /* Date+agoString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB5F2694C7ED00AAD063 /* Date+agoString.swift */; };
 		7D25AB662694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25AB652694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift */; };
+		7D3B5A2A26BB733F00161C57 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B5A2926BB733F00161C57 /* UserView.swift */; };
+		7D3B5A2C26BC581A00161C57 /* TwitterAPI+QueryItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B5A2B26BC581A00161C57 /* TwitterAPI+QueryItems.swift */; };
 		7D5CD36626964D9D002D54BA /* Tweet+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD36526964D9D002D54BA /* Tweet+API.swift */; };
 		7D5CD36826967337002D54BA /* SearchResults+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD36726967337002D54BA /* SearchResults+API.swift */; };
 		7D5CD36A2696761A002D54BA /* User+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CD3692696761A002D54BA /* User+API.swift */; };
@@ -71,6 +73,8 @@
 		7D25AB5D26940CEB00AAD063 /* TwitterAPI+APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+APIError.swift"; sourceTree = "<group>"; };
 		7D25AB5F2694C7ED00AAD063 /* Date+agoString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+agoString.swift"; sourceTree = "<group>"; };
 		7D25AB652694FCFB00AAD063 /* ISO8601DateFormatter+twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ISO8601DateFormatter+twitter.swift"; sourceTree = "<group>"; };
+		7D3B5A2926BB733F00161C57 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		7D3B5A2B26BC581A00161C57 /* TwitterAPI+QueryItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterAPI+QueryItems.swift"; sourceTree = "<group>"; };
 		7D5CD36526964D9D002D54BA /* Tweet+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tweet+API.swift"; sourceTree = "<group>"; };
 		7D5CD36726967337002D54BA /* SearchResults+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResults+API.swift"; sourceTree = "<group>"; };
 		7D5CD3692696761A002D54BA /* User+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+API.swift"; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				7D25AB582693E30200AAD063 /* TwitterAPI+Tweet.swift */,
 				7D25AB5D26940CEB00AAD063 /* TwitterAPI+APIError.swift */,
 				7D25AB4A2690DA2800AAD063 /* TwitterAPI+Token.swift */,
+				7D3B5A2B26BC581A00161C57 /* TwitterAPI+QueryItems.swift */,
 				7D25AB38268F820500AAD063 /* ErrorResponse.swift */,
 				7D25AB5B26940CAA00AAD063 /* URLRequest+HTTPMethod.swift */,
 			);
@@ -165,6 +170,7 @@
 				7D25AB482690C76300AAD063 /* ConversationView.swift */,
 				7D25AB3F268FDE3200AAD063 /* TweetView.swift */,
 				7D5CD3752697B3F7002D54BA /* NetworkErrorAlert.swift */,
+				7D3B5A2926BB733F00161C57 /* UserView.swift */,
 				7D940BD926B839C3008E7503 /* TweetTextView */,
 			);
 			path = Views;
@@ -307,6 +313,7 @@
 				7D940BD426B835EB008E7503 /* TweetTextElement.swift in Sources */,
 				7D25AB2D268EABA900AAD063 /* TrendsView.swift in Sources */,
 				7D25AB3E268FD86300AAD063 /* User.swift in Sources */,
+				7D3B5A2C26BC581A00161C57 /* TwitterAPI+QueryItems.swift in Sources */,
 				7D25AB40268FDE3200AAD063 /* TweetView.swift in Sources */,
 				7D940BCD26B834D8008E7503 /* TweetTextView.swift in Sources */,
 				7D5CD36626964D9D002D54BA /* Tweet+API.swift in Sources */,
@@ -320,6 +327,7 @@
 				7D25AB572693E0ED00AAD063 /* TwitterAPI+Trends.swift in Sources */,
 				7D25AB552693E01100AAD063 /* TwitterAPI+User.swift in Sources */,
 				7D25AB37268EC66E00AAD063 /* SearchResultsView.swift in Sources */,
+				7D3B5A2A26BB733F00161C57 /* UserView.swift in Sources */,
 				7D940BD126B8356F008E7503 /* TweetTextElementDetector.swift in Sources */,
 				7D5CD3762697B3F7002D54BA /* NetworkErrorAlert.swift in Sources */,
 				7D5CD3702696AC19002D54BA /* Trend.swift in Sources */,

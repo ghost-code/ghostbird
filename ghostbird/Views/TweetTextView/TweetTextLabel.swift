@@ -13,6 +13,8 @@ protocol TweetTextLabelDelegate: AnyObject {
 
 class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
 
+    static let heightCalculator = TweetTextLabelHeightCalculator()
+
     weak var delegate: TweetTextLabelDelegate?
     let layoutManager = NSLayoutManager()
     let textContainer = NSTextContainer(size: .zero)
