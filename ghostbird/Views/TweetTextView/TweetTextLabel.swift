@@ -135,4 +135,24 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
             return nil
         }
     }
+
+}
+
+struct TweetTextLabelHeightCalculator {
+
+    let layoutManager: NSLayoutManager = NSLayoutManager()
+    let textContainer: NSTextContainer = NSTextContainer()
+
+    init() {
+        textContainer.lineFragmentPadding = 0
+        textContainer.maximumNumberOfLines = 0
+        layoutManager.addTextContainer(textContainer)
+    }
+
+    func height(for attributedString: NSAttributedString, width: CGFloat) -> CGFloat {
+        // Add attributed string to container
+        return CGSize(width: width,
+                      height: layoutManager.usedRect(for: textContainer).size.height).height
+    }
+
 }
