@@ -51,29 +51,20 @@ struct TweetView: View {
     }
 
     var userImage: some View {
-        Button {
+        AsyncImage(url: tweet.author.profileImageURL) { image in
+            image
+                .resizable()
+                .clipShape(Circle())
+        } placeholder: {
+            Circle()
+                .fill(Color.gray)
+        }
+            .frame(width: 40, height: 40)
+        .onTapGesture {
             tweet.activeElement = TweetTextElement(string: tweet.author.userName,
                                                    range: NSRange(location: 0, length: 0),
                                                    type: .mention)
-        } label: {
-            AsyncImage(url: tweet.author.profileImageURL) { image in
-                image
-                    .resizable()
-                    .clipShape(Circle())
-            } placeholder: {
-                Circle()
-                    .fill(Color.gray)
-            }
-            .frame(width: 40, height: 40)
         }
-    }
-
-    var tweetBackgroundButton: some View {
-        Color.white
-            .onTapGesture {
-                tweet.conversationIsActive = true
-            }
-            .ignoresSafeArea()
     }
 
     var nameView: some View {
