@@ -7,8 +7,10 @@
 
 import Foundation
 
+@MainActor
 class User: ObservableObject, Identifiable {
 
+    let api: TwitterAPIProtocol
     let id: String
     let name: String
     let userName: String
@@ -20,10 +22,27 @@ class User: ObservableObject, Identifiable {
     let publicMetrics: PublicMetrics
     let url: URL?
     let verified: Bool
+    var olderTweetsToken: String?
 
     @Published var tweets: [Tweet] = []
 
-    init(apiUser: TwitterAPI.Models.User.Data) {
+    @Published var errorIsActive: Bool = false {
+        didSet {
+            if !errorIsActive && activeError != nil {
+                activeError = nil
+            }
+        }
+    }
+
+    var activeError: Error? {
+        didSet {
+            errorIsActive = activeError != nil
+
+        }
+    }
+
+    init(api: TwitterAPIProtocol, apiUser: TwitterAPI.Models.User.Data) {
+        self.api = api
         self.id = apiUser.id
         self.name = apiUser.name
         self.userName = apiUser.username

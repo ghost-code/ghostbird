@@ -23,6 +23,11 @@ struct UserView: View {
                     .foregroundColor(Color("LabelColor"))
             }
         }
+        .task {
+            if user.tweets.isEmpty {
+                await user.getTweets()
+            }
+        }
         .listStyle(.plain)
         .navigationTitle(user.name)
     }
@@ -42,10 +47,15 @@ struct UserView: View {
                         }
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+
             Text(user.description)
                 .lineLimit(nil)
         }
+        .padding(16)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .overlay(Color("SeparatorColor").frame(height: 0.5).ignoresSafeArea(), alignment: .bottom)
     }
 
     var userImage: some View {

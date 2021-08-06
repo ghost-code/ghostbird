@@ -26,7 +26,7 @@ extension Tweet {
                   id: apiTweetData.id,
                   text: apiTweetData.text,
                   date: ISO8601DateFormatter.twitter.date(from: apiTweetData.created_at) ?? .now,
-                  author: User(apiUser: apiUser),
+                  author: User(api: api, apiUser: apiUser),
                   conversationID: apiTweetData.conversation_id,
                   hasReferencedTweets: !(apiTweetData.referenced_tweets?.isEmpty ?? true),
                   language: apiTweetData.lang,
@@ -48,7 +48,7 @@ extension Tweet {
     func getReferencedTweets(for ids: [String]) async throws -> [Tweet] {
         var tweets: [Tweet] = []
         guard ids.count > 0 else { return tweets }
-        let apiTweets = try await api.getTweets(for: ids)
+        let apiTweets = try await api.getTweets(forTweetIDs: ids)
         if let referencedTweets = Tweet.tweets(for: apiTweets, api: api) {
             for tweet in referencedTweets {
                 tweets.insert(tweet, at: 0)

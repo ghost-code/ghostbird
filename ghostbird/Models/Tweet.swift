@@ -15,14 +15,6 @@ class Tweet: ObservableObject, Identifiable {
 
     @Published var conversationIsActive: Bool = false
 
-    @Published var errorIsActive: Bool = false {
-        didSet {
-            if !errorIsActive && activeError != nil {
-                activeError = nil
-            }
-        }
-    }
-
     @Published var elementIsActive: Bool = false {
         didSet {
             if !elementIsActive && activeElement != nil{
@@ -34,6 +26,14 @@ class Tweet: ObservableObject, Identifiable {
     var activeElement: TweetTextElement? = nil {
         didSet {
             elementIsActive = activeElement != nil
+        }
+    }
+
+    @Published var errorIsActive: Bool = false {
+        didSet {
+            if !errorIsActive && activeError != nil {
+                activeError = nil
+            }
         }
     }
 

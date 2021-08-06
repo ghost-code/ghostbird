@@ -12,8 +12,10 @@ protocol TwitterAPIProtocol {
     func getSearchResults(forQuery query: String,
                           sinceID: String?,
                           nextToken: String?) async throws -> TwitterAPI.Models.Search
-    func getTweets(for id: String) async throws -> TwitterAPI.Models.Tweet
-    func getTweets(for ids: [String]) async throws -> TwitterAPI.Models.Tweets
+    func getTweets(forTweetID id: String) async throws -> TwitterAPI.Models.Tweet
+    func getTweets(forTweetIDs ids: [String]) async throws -> TwitterAPI.Models.Tweets
+    func getTweets(forUserID userID: String,
+                   nextToken: String?)  async throws -> TwitterAPI.Models.Search
 }
 
 class TwitterAPI: TwitterAPIProtocol {

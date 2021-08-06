@@ -9,7 +9,7 @@ import Foundation
 
 extension TwitterAPI {
 
-    func getTweets(for ids: [String]) async throws -> TwitterAPI.Models.Tweets {
+    func getTweets(forTweetIDs ids: [String]) async throws -> TwitterAPI.Models.Tweets {
         var queryItems: [URLQueryItem] = []
         queryItems.append(TwitterAPI.QueryItems.expansions)
         queryItems.append(TwitterAPI.QueryItems.userFields)
@@ -24,7 +24,7 @@ extension TwitterAPI {
                                         queryItems: queryItems)
     }
     
-    func getTweets(for id: String) async throws -> TwitterAPI.Models.Tweet {
+    func getTweets(forTweetID id: String) async throws -> TwitterAPI.Models.Tweet {
         var queryItems: [URLQueryItem] = []
         queryItems.append(TwitterAPI.QueryItems.expansions)
         queryItems.append(TwitterAPI.QueryItems.userFields)
@@ -34,7 +34,18 @@ extension TwitterAPI {
                                         path: "/2/tweets/" + id,
                                         queryItems: queryItems)
     }
-    
+
+    func getTweets(forUserID userID: String, nextToken: String?)  async throws -> TwitterAPI.Models.Search {
+        var queryItems: [URLQueryItem] = []
+        queryItems.append(TwitterAPI.QueryItems.expansions)
+        queryItems.append(TwitterAPI.QueryItems.userFields)
+        queryItems.append(TwitterAPI.QueryItems.tweetFields)
+
+        return try await performRequest(method: .get,
+                                        path: "/2/users/" + userID + "/tweets",
+                                        queryItems: queryItems)
+    }
+
 }
 
 extension TwitterAPI.Models {
