@@ -11,25 +11,26 @@ struct TweetTextView: View {
 
     static private var lastKnownWidth: CGFloat = 320
 
-    var tweetText: TweetText
+    var twitterString: TwitterString
     @State var width: CGFloat = lastKnownWidth {
         didSet {
             TweetTextView.lastKnownWidth = width
         }
     }
 
-    var tweetElementTapAction: ((TweetTextElement) -> Void)?
+    var twitterStringEntityTapAction: ((TwitterStringEntity) -> Void)?
 
-    init(_ tweetText: TweetText, tweetElementTapAction: ((TweetTextElement) -> Void)?) {
-        self.tweetText = tweetText
-        self.tweetElementTapAction = tweetElementTapAction
+    init(_ twitterString: TwitterString,
+         twitterStringEntityTapAction: ((TwitterStringEntity) -> Void)?) {
+        self.twitterString = twitterString
+        self.twitterStringEntityTapAction = twitterStringEntityTapAction
     }
 
     var body: some View {
-        RepresentedTweetTextLabel(tweetText: tweetText,
+        RepresentedTweetTextLabel(twitterString: twitterString,
                                   width: width,
-                                  tweetElementTapAction: {
-            tweetElementTapAction?($0)
+                                  twitterStringEntityTapAction: {
+            twitterStringEntityTapAction?($0)
 
         })
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -54,10 +55,10 @@ struct ViewWidthKey: PreferenceKey {
 
 struct RepresentedTweetTextLabel: UIViewRepresentable {
 
-    let tweetText: TweetText
+    let twitterString: TwitterString
     var width: CGFloat
 
-    var tweetElementTapAction: ((TweetTextElement) -> Void)?
+    var twitterStringEntityTapAction: ((TwitterStringEntity) -> Void)?
 
     func makeUIView(context: Context) -> TweetTextLabel {
         let tweetTextView = TweetTextLabel()
@@ -73,12 +74,12 @@ struct RepresentedTweetTextLabel: UIViewRepresentable {
 
     func makeCoordinator() -> Coordinator {
         let coordinator = Coordinator()
-        coordinator.tweetElementTapAction = tweetElementTapAction
+        coordinator.twitterStringEntityTapAction = twitterStringEntityTapAction
         return coordinator
     }
 
     func updateUIView(_ uiView: TweetTextLabel, context: Context) {
-        uiView.tweetText = tweetText
+        uiView.twitterString = twitterString
         uiView.preferredMaxLayoutWidth = width
         uiView.delegate = context.coordinator
     }
@@ -89,10 +90,10 @@ extension RepresentedTweetTextLabel {
 
     class Coordinator: TweetTextLabelDelegate {
 
-        var tweetElementTapAction: ((TweetTextElement) -> Void)?
+        var twitterStringEntityTapAction: ((TwitterStringEntity) -> Void)?
 
-        func didTapElement(element: TweetTextElement) {
-            tweetElementTapAction?(element)
+        func didTapEntity(_ entity: TwitterStringEntity) {
+            twitterStringEntityTapAction?(entity)
         }
 
     }

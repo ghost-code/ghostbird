@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TweetTextLabelDelegate: AnyObject {
-    func didTapElement(element: TweetTextElement)
+    func didTapEntity(_ entity: TwitterStringEntity)
 }
 
 class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
@@ -18,7 +18,7 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
     weak var delegate: TweetTextLabelDelegate?
     let layoutManager = NSLayoutManager()
     let textContainer = NSTextContainer(size: .zero)
-    var tappedElement: TweetTextElement? = nil {
+    var tappedEntity: TwitterStringEntity? = nil {
         didSet {
             setNeedsDisplay()
         }
@@ -37,9 +37,9 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
         }
     }
 
-    var tweetText: TweetText? {
+    var twitterString: TwitterString? {
         didSet {
-            if let attributedString = tweetText?.attributedString {
+            if let attributedString = twitterString?.attributedString {
                 textStorage = NSTextStorage(attributedString: attributedString)
             } else {
                 textStorage = nil
@@ -71,7 +71,7 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
     override func draw(_ rect: CGRect) {
         let range = layoutManager.glyphRange(for: textContainer)
 
-        if let element = tappedElement {
+        if let element = tappedEntity {
             for i in element.range.lowerBound..<element.range.upperBound {
                 let rect = layoutManager.boundingRect(forGlyphRange: NSRange(location: i, length: 1),
                                                       in: textContainer)
@@ -88,33 +88,26 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
 
     @objc func didReceiveTap(_ gesture: UITapGestureRecognizer) {
         let location = gesture.location(in: gesture.view!)
-        guard let result = element(at: location) else {
-            return
-        }
-
-        didTapElement(element: result)
-    }
-
-    func didTapElement(element: TweetTextElement) {
-        delegate?.didTapElement(element: element)
+        guard let entity = entity(at: location) else { return }
+        delegate?.didTapEntity(entity)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard touches.count == 1 else { return }
-        tappedElement = element(at: touches.first!.location(in: self))
+        tappedEntity = entity(at: touches.first!.location(in: self))
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        tappedElement = nil
+        tappedEntity = nil
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        tappedElement = nil
+        tappedEntity = nil
     }
 
-    private func element(at point: CGPoint) -> TweetTextElement? {
+    private func entity(at point: CGPoint) -> TwitterStringEntity? {
 
-        guard let tweetText = tweetText else { return nil }
+        guard let twitterString = twitterString else { return nil }
 
         let glyphRange = layoutManager.glyphRange(for: textContainer)
         let boundingRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
@@ -124,12 +117,11 @@ class TweetTextLabel: UIView, UIGestureRecognizerDelegate {
 
         let glyphIndex = layoutManager.glyphIndex(for: point, in: textContainer)
         let characterIndex = layoutManager.characterIndexForGlyph(at: glyphIndex)
-
-        return tweetText.elements.first { $0.range.contains(characterIndex) }
+        return twitterString.entities.first { $0.range.contains(characterIndex) }
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if element(at: point) != nil {
+        if entity(at: point) != nil {
             return self
         } else {
             return nil
