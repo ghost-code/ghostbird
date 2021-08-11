@@ -15,17 +15,17 @@ class Tweet: ObservableObject, Identifiable {
 
     @Published var conversationIsActive: Bool = false
 
-    @Published var elementIsActive: Bool = false {
+    @Published var entityIsActive: Bool = false {
         didSet {
-            if !elementIsActive && activeElement != nil{
-                activeElement = nil
+            if !entityIsActive && activeEntity != nil{
+                activeEntity = nil
             }
         }
     }
 
-    var activeElement: TweetTextElement? = nil {
+    var activeEntity: TwitterStringEntity? = nil {
         didSet {
-            elementIsActive = activeElement != nil
+            entityIsActive = activeEntity != nil
         }
     }
 
@@ -53,12 +53,13 @@ class Tweet: ObservableObject, Identifiable {
     let referencedTweetIDs: [String]
     let metrics: Metrics
     let hasReferencedTweets: Bool
-    let tweetText: TweetText
+    let twitterText: TwitterString
     let language: String?
 
     init(api: TwitterAPIProtocol,
          id: String,
          text: String,
+         twitterText: TwitterString,
          date: Date,
          author: User,
          conversationID: String,
@@ -77,7 +78,7 @@ class Tweet: ObservableObject, Identifiable {
         self.referencedTweetIDs = referencedTweetIDs ?? []
         self.metrics = metrics
         self.language = language
-        self.tweetText = TweetText(string: text, language: language)
+        self.twitterText = twitterText
     }
 
     func getReferencedTweets() async {
@@ -98,14 +99,15 @@ class Tweet: ObservableObject, Identifiable {
         }
     }
 
-    func searchResults(for element: TweetTextElement) -> SearchResults {
-        SearchResults(api: api, name: element.string, query: element.string)
+    func searchResults(for string: String) -> SearchResults {
+        SearchResults(api: api, name: string, query: string)
     }
 
     var copy: Tweet {
         Tweet(api: api,
               id: id,
               text: text,
+              twitterText: twitterText,
               date: date,
               author: author,
               conversationID: conversationID,

@@ -22,9 +22,14 @@ extension Tweet {
          apiTweetData: TwitterAPI.Models.Tweet.Data,
          apiUser: TwitterAPI.Models.User.Data) {
 
+        let twitterString = TwitterString(string: apiTweetData.text,
+                                          entities: TwitterAPIWrapper.twitterStringEntities(for: apiTweetData),
+                                          language: apiTweetData.lang)
+
         self.init(api: api,
                   id: apiTweetData.id,
                   text: apiTweetData.text,
+                  twitterText: twitterString,
                   date: ISO8601DateFormatter.twitter.date(from: apiTweetData.created_at) ?? .now,
                   author: User(api: api, apiUser: apiUser),
                   conversationID: apiTweetData.conversation_id,
