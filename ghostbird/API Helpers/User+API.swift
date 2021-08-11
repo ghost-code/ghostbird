@@ -13,7 +13,7 @@ extension User {
         do {
             let searchResults = try await api.getTweets(forUserID: id, nextToken: nil)
             olderTweetsToken = searchResults.meta.next_token
-            self.tweets = SearchResults.tweets(for: searchResults, api: api)
+            self.tweets = Search.tweets(for: searchResults, api: api)
         } catch {
             print(error)
             activeError = error
@@ -25,7 +25,7 @@ extension User {
         do {
             let searchResults = try await api.getTweets(forUserID: id, nextToken: olderTweetsToken)
             self.olderTweetsToken = searchResults.meta.next_token
-            tweets.append(contentsOf: SearchResults.tweets(for: searchResults, api: api))
+            tweets.append(contentsOf: Search.tweets(for: searchResults, api: api))
         } catch {
             activeError = error
             errorIsActive = true

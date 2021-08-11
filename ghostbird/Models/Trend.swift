@@ -15,7 +15,7 @@ class Trend: Identifiable {
     let name: String
     let position: Int
     let tweetVolume: Int?
-    let searchResults: SearchResults
+    let search: Search
 
     init(api: TwitterAPIProtocol,
          name: String,
@@ -27,9 +27,9 @@ class Trend: Identifiable {
         self.name = name
         self.position = position
         self.tweetVolume = tweetVolume
-        self.searchResults = SearchResults(api: api,
-                                           name: name,
-                                           query: query)
+        self.search = Search(api: api,
+                             name: name,
+                             query: query)
     }
     
 }

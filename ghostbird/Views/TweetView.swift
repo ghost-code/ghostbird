@@ -18,11 +18,11 @@ struct TweetView: View {
         guard let entity = tweet.activeEntity else { return AnyView(ConversationView(tweet: tweet.copy)) }
         switch entity.type {
         case .hashtag:
-            return AnyView(SearchResultsView(searchResults: tweet.searchResults(for: "#" + entity.value)))
+            return AnyView(SearchView(search: tweet.search(for: "#" + entity.string)))
         case .mention:
             return AnyView(UserView(user: tweet.author))
         default:
-            return AnyView(Text(entity.value))
+            return AnyView(Text(entity.string))
         }
     }
 
@@ -89,7 +89,7 @@ struct TweetView: View {
         TweetTextView(tweet.twitterText,
                       twitterStringEntityTapAction: { entity in
             if entity.type == .url {
-                guard let url = URL(string: entity.value) else { return }
+                guard let url = URL(string: entity.string) else { return }
                 openURL(url)
             } else {
                 tweet.activeEntity = entity

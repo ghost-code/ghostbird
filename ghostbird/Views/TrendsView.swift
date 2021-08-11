@@ -13,7 +13,7 @@ struct TrendsView: View {
 
     var body: some View {
         List(trends.trendsCollection) { trend in
-            NavigationLink(destination: SearchResultsView(searchResults: trend.searchResults)) {
+            NavigationLink(destination: SearchView(search: trend.search)) {
                 TrendListItemView(trend: trend)
             }
         }

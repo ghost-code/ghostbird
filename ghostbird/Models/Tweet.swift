@@ -99,8 +99,8 @@ class Tweet: ObservableObject, Identifiable {
         }
     }
 
-    func searchResults(for string: String) -> SearchResults {
-        SearchResults(api: api, name: string, query: string)
+    func search(for string: String) -> Search {
+        Search(api: api, name: string, query: string)
     }
 
     var copy: Tweet {
@@ -126,6 +126,10 @@ extension Tweet {
         let replyCount: Int
         let likeCount: Int
         let quoteCount: Int
+    }
+
+    struct Entities {
+//        let cashtags: [Cashtag]
     }
 
 }

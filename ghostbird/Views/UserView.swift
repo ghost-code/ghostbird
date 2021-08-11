@@ -13,6 +13,8 @@ struct UserView: View {
 
     var body: some View {
         List {
+            // Tweets / mentions / favorites
+            // following / followers
             Section {
                 ForEach(user.tweets) {
                     TweetView(tweet: $0)

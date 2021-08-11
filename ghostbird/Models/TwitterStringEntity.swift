@@ -15,6 +15,6 @@ struct TwitterStringEntity {
 
     var type: EntityType
     var range: NSRange
-    var value: String
+    var string: String
 
 }

@@ -16,6 +16,8 @@ struct TwitterString {
     private let font: UIFont = UIFont.systemFont(ofSize: 16)
     private let elementColor = UIColor(.accentColor)
 
+    static let detector = TweetTextElementDetector()
+
     init(string: String, entities: [TwitterStringEntity], language: String?) {
         let isLTR: Bool
         if let language = language {

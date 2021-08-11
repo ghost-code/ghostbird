@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension SearchResults {
+extension Search {
 
     convenience init(api: TwitterAPIProtocol, apiTrend: TwitterAPI.Models.Trend) {
         self.init(api: api,
@@ -33,7 +33,7 @@ extension SearchResults {
                                                                sinceID: nil,
                                                                nextToken: nil)
             olderTweetsToken = searchResults.meta.next_token
-            self.tweets = SearchResults.tweets(for: searchResults, api: api)
+            self.tweets = Search.tweets(for: searchResults, api: api)
         } catch {
             activeError = error
             errorIsActive = true
@@ -45,7 +45,7 @@ extension SearchResults {
             let searchResults = try await api.getSearchResults(forQuery: query,
                                                                sinceID: tweets.first?.id,
                                                                nextToken: nil)
-            self.tweets.insert(contentsOf: SearchResults.tweets(for: searchResults, api: api), at: 0)
+            self.tweets.insert(contentsOf: Search.tweets(for: searchResults, api: api), at: 0)
         } catch {
             activeError = error
             errorIsActive = true
@@ -58,7 +58,7 @@ extension SearchResults {
                                                                sinceID: nil,
                                                                nextToken: olderTweetsToken)
             self.olderTweetsToken = searchResults.meta.next_token
-            tweets.append(contentsOf: SearchResults.tweets(for: searchResults, api: api))
+            tweets.append(contentsOf: Search.tweets(for: searchResults, api: api))
         } catch {
             activeError = error
             errorIsActive = true

@@ -1,5 +1,5 @@
 //
-//  SearchResultsView.swift
+//  SearchView.swift
 //  ghostbird
 //
 //  Created by David Russell on 7/1/21.
@@ -7,38 +7,38 @@
 
 import SwiftUI
 
-struct SearchResultsView: View {
+struct SearchView: View {
 
-    @ObservedObject var searchResults: SearchResults
+    @ObservedObject var search: Search
 
     var body: some View {
         List {
-            ForEach(searchResults.tweets) { tweet in
+            ForEach(search.tweets) { tweet in
                 TweetView(tweet: tweet)
             }
             loadMoreTweetsView
         }
         .listStyle(.plain)
         .task {
-            if searchResults.tweets.isEmpty {
-                await searchResults.getTweets()
+            if search.tweets.isEmpty {
+                await search.getTweets()
             }
         }
         .refreshable {
-            await searchResults.getNewerTweets()
+            await search.getNewerTweets()
         }
-        .navigationBarTitle(searchResults.name, displayMode: .inline)
-        .alert(isPresented: $searchResults.errorIsActive) {
-            NetworkErrorAlert.alert(for: searchResults.activeError)
+        .navigationBarTitle(search.name, displayMode: .inline)
+        .alert(isPresented: $search.errorIsActive) {
+            NetworkErrorAlert.alert(for: search.activeError)
         }
     }
 
     @ViewBuilder
     var loadMoreTweetsView: some View {
-        if !searchResults.tweets.isEmpty {
+        if !search.tweets.isEmpty {
             Button {
                 Task(priority: .userInitiated) {
-                    await searchResults.getOlderTweets()
+                    await search.getOlderTweets()
                 }
             } label: {
                 Text("Load older tweets")
