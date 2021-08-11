@@ -15,14 +15,14 @@ struct TweetView: View {
 
     // TODO: clean this up
     var elementDestination: some View {
-        guard let element = tweet.activeElement else { return AnyView(ConversationView(tweet: tweet.copy)) }
-        switch element.type {
+        guard let entity = tweet.activeEntity else { return AnyView(ConversationView(tweet: tweet.copy)) }
+        switch entity.type {
         case .hashtag:
-            return AnyView(SearchResultsView(searchResults: tweet.searchResults(for: element)))
+            return AnyView(SearchResultsView(searchResults: tweet.searchResults(for: "#" + entity.value)))
         case .mention:
             return AnyView(UserView(user: tweet.author))
         default:
-            return AnyView(Text(element.string))
+            return AnyView(Text(entity.value))
         }
     }
 
@@ -61,9 +61,9 @@ struct TweetView: View {
         }
             .frame(width: 40, height: 40)
         .onTapGesture {
-            tweet.activeElement = TweetTextElement(string: tweet.author.userName,
-                                                   range: NSRange(location: 0, length: 0),
-                                                   type: .mention)
+//            tweet.activeEntity = TweetTextElement(string: tweet.author.userName,
+//                                                   range: NSRange(location: 0, length: 0),
+//                                                   type: .mention)
         }
     }
 
@@ -86,13 +86,13 @@ struct TweetView: View {
     }
 
     var tweetTextView: some View {
-        TweetTextView(tweet.tweetText,
-                      tweetElementTapAction: { element in
-            if element.type == .url {
-                guard let url = URL(string: element.string) else { return }
+        TweetTextView(tweet.twitterText,
+                      twitterStringEntityTapAction: { entity in
+            if entity.type == .url {
+                guard let url = URL(string: entity.value) else { return }
                 openURL(url)
             } else {
-                tweet.activeElement = element
+                tweet.activeEntity = entity
             }
         })
     }
@@ -121,7 +121,7 @@ struct TweetView: View {
 
     var hiddenNavigationLink: some View {
         NavigationLink(destination: elementDestination,
-                       isActive: $tweet.elementIsActive) {
+                       isActive: $tweet.entityIsActive) {
             EmptyView()
         }
         .opacity(0)
