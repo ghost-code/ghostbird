@@ -16,28 +16,28 @@ class TwitterAPIWrapper {
         if let apiCashtags = apiTweetData.entities?.cashtags {
             apiCashtags.forEach {
                 let range = NSRange(location: $0.start, length: $0.end - $0.start)
-                entities.append(TwitterStringEntity(type: .cashtag, range: range, value: $0.tag))
+                entities.append(TwitterStringEntity(type: .cashtag, range: range, string: "$" + $0.tag))
             }
         }
 
         if let apiHashtags = apiTweetData.entities?.hashtags {
             apiHashtags.forEach {
                 let range = NSRange(location: $0.start, length: $0.end - $0.start)
-                entities.append(TwitterStringEntity(type: .hashtag, range: range, value: $0.tag))
+                entities.append(TwitterStringEntity(type: .hashtag, range: range, string: "#" + $0.tag))
             }
         }
 
         if let apiMentions = apiTweetData.entities?.mentions {
             apiMentions.forEach {
                 let range = NSRange(location: $0.start, length: $0.end - $0.start)
-                entities.append(TwitterStringEntity(type: .mention, range: range, value: $0.username))
+                entities.append(TwitterStringEntity(type: .mention, range: range, string: $0.username))
             }
         }
 
         if let apiURLs = apiTweetData.entities?.urls {
             apiURLs.forEach {
                 let range = NSRange(location: $0.start, length: $0.end - $0.start)
-                entities.append(TwitterStringEntity(type: .url, range: range, value: $0.url.absoluteString)) // TODO: url?
+                entities.append(TwitterStringEntity(type: .url, range: range, string: $0.url.absoluteString)) // TODO: url?
             }
         }
 

@@ -49,6 +49,7 @@ class Tweet: ObservableObject, Identifiable {
     let conversationID: String
     let text: String
     let author: User
+    let entities: Entities
     let date: Date
     let referencedTweetIDs: [String]
     let metrics: Metrics
@@ -61,6 +62,7 @@ class Tweet: ObservableObject, Identifiable {
          text: String,
          twitterText: TwitterString,
          date: Date,
+         entities: Entities,
          author: User,
          conversationID: String,
          hasReferencedTweets: Bool,
@@ -72,6 +74,7 @@ class Tweet: ObservableObject, Identifiable {
         self.id = id
         self.text = text
         self.date = date
+        self.entities = entities
         self.author = author
         self.conversationID = conversationID
         self.hasReferencedTweets = hasReferencedTweets
@@ -99,8 +102,12 @@ class Tweet: ObservableObject, Identifiable {
         }
     }
 
-    func search(for string: String) -> Search {
-        Search(api: api, name: string, query: string)
+    func hashtagSearch(for entity: TwitterStringEntity) -> Search? {
+        entities.hashtags.first(where: { $0.name == entity.string })
+    }
+
+    func cashtagSearch(for entity: TwitterStringEntity) -> Search? {
+        entities.cashtags.first(where: { $0.name == entity.string })
     }
 
     var copy: Tweet {
@@ -109,6 +116,7 @@ class Tweet: ObservableObject, Identifiable {
               text: text,
               twitterText: twitterText,
               date: date,
+              entities: entities,
               author: author,
               conversationID: conversationID,
               hasReferencedTweets: hasReferencedTweets,
@@ -129,7 +137,10 @@ extension Tweet {
     }
 
     struct Entities {
-//        let cashtags: [Cashtag]
+        let cashtags: [Search]
+        let hashtags: [Search]
+        let mentions: [User]
+        let urls: [URL]
     }
 
 }

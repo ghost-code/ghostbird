@@ -17,13 +17,21 @@ struct TweetView: View {
     var elementDestination: some View {
         guard let entity = tweet.activeEntity else { return AnyView(ConversationView(tweet: tweet.copy)) }
         switch entity.type {
+        case .cashtag:
+            if let search = tweet.cashtagSearch(for: entity) {
+                return AnyView(SearchView(search: search))
+            }
         case .hashtag:
-            return AnyView(SearchView(search: tweet.search(for: "#" + entity.string)))
+            if let search = tweet.hashtagSearch(for: entity) {
+                return AnyView(SearchView(search: search))
+            }
         case .mention:
             return AnyView(UserView(user: tweet.author))
         default:
             return AnyView(Text(entity.string))
         }
+
+        return AnyView(EmptyView())
     }
 
     var body: some View {

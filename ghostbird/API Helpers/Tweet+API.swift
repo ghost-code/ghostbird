@@ -25,18 +25,43 @@ extension Tweet {
         let twitterString = TwitterString(string: apiTweetData.text,
                                           entities: TwitterAPIWrapper.twitterStringEntities(for: apiTweetData),
                                           language: apiTweetData.lang)
+        let entities = Tweet.entities(for: api, apiTweetData: apiTweetData)
 
         self.init(api: api,
                   id: apiTweetData.id,
                   text: apiTweetData.text,
                   twitterText: twitterString,
                   date: ISO8601DateFormatter.twitter.date(from: apiTweetData.created_at) ?? .now,
+                  entities: entities,
                   author: User(api: api, apiUser: apiUser),
                   conversationID: apiTweetData.conversation_id,
                   hasReferencedTweets: !(apiTweetData.referenced_tweets?.isEmpty ?? true),
                   language: apiTweetData.lang,
                   referencedTweetIDs: apiTweetData.referenced_tweets?.map { $0.id },
                   metrics: Metrics.init(apiTweetMetrics: apiTweetData.public_metrics))
+    }
+
+    static func entities(for api: TwitterAPIProtocol,
+                         apiTweetData: TwitterAPI.Models.Tweet.Data) -> Tweet.Entities {
+
+        let cashtags = apiTweetData.entities?.cashtags?.map({
+            Search(api: api, name: "$" + $0.tag, query: "$" + $0.tag)
+        }) ?? []
+
+        let hashtags = apiTweetData.entities?.hashtags?.map({
+            Search(api: api, name: "#" + $0.tag, query: "#" + $0.tag)
+        }) ?? []
+
+//        let mentions = apiTweetData.entities?.mentions?.map({ _ in
+////            User(api: TwitterAPIProtocol, apiUser: <#T##TwitterAPI.Models.User.Data#>)
+//        }) ?? []
+        let mentions: [User] = []
+
+        let urls = apiTweetData.entities?.urls?.map({
+            $0.url
+        }) ?? []
+
+        return Entities(cashtags: cashtags, hashtags: hashtags, mentions: mentions, urls: urls)
     }
 
     static func tweets(for apiTweets: TwitterAPI.Models.Tweets, api: TwitterAPIProtocol) -> [Tweet]? {
