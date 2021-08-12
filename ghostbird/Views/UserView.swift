@@ -26,12 +26,15 @@ struct UserView: View {
             }
         }
         .task {
+            if !user.isLoaded {
+                await user.getUser()
+            }
             if user.tweets.isEmpty {
                 await user.getTweets()
             }
         }
         .listStyle(.plain)
-        .navigationTitle(user.name)
+        .navigationTitle(user.userName)
     }
 
     var header: some View {
@@ -40,8 +43,8 @@ struct UserView: View {
                 userImage
 
                 VStack(alignment: .leading) {
-                    Text(user.userName)
-                    Text("Joined \(user.createdAt.agoString)")
+                    Text(user.name ?? "")
+                    Text(createdAtString)
                     if let location = user.location {
                         HStack(spacing: 2) {
                             Image(systemName: "location.fill")
@@ -52,12 +55,20 @@ struct UserView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
 
-            Text(user.description)
+            Text(user.description ?? "")
                 .lineLimit(nil)
         }
         .padding(16)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .overlay(Color("SeparatorColor").frame(height: 0.5).ignoresSafeArea(), alignment: .bottom)
+    }
+
+    var createdAtString: String {
+        if let agoString = user.createdAt?.agoString {
+            return "Joined \(agoString)"
+        } else {
+            return ""
+        }
     }
 
     var userImage: some View {

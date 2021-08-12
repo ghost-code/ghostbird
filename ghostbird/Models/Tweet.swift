@@ -17,7 +17,7 @@ class Tweet: ObservableObject, Identifiable {
 
     @Published var entityIsActive: Bool = false {
         didSet {
-            if !entityIsActive && activeEntity != nil{
+            if !entityIsActive && activeEntity != nil {
                 activeEntity = nil
             }
         }
@@ -40,7 +40,6 @@ class Tweet: ObservableObject, Identifiable {
     var activeError: Error? {
         didSet {
             errorIsActive = activeError != nil
-
         }
     }
 
@@ -108,6 +107,14 @@ class Tweet: ObservableObject, Identifiable {
 
     func cashtagSearch(for entity: TwitterStringEntity) -> Search? {
         entities.cashtags.first(where: { $0.name == entity.string })
+    }
+
+    func user(for entity: TwitterStringEntity) -> User? {
+        if author.userName == entity.string {
+            return author
+        } else {
+            return entities.mentions.first(where: { $0.userName == entity.string })
+        }
     }
 
     var copy: Tweet {

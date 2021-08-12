@@ -12,19 +12,20 @@ class User: ObservableObject, Identifiable {
 
     let api: TwitterAPIProtocol
     let id: String
-    let name: String
     let userName: String
-    let createdAt: Date
-    let description: String
-    let location: String?
-    let pinnedTweetID: String?
-    let profileImageURL: URL?
-    let publicMetrics: PublicMetrics
-    let url: URL?
-    let verified: Bool
-    var olderTweetsToken: String?
 
+    @Published var name: String?
+    @Published var createdAt: Date?
+    @Published var description: String?
+    @Published var location: String?
+    @Published var pinnedTweetID: String?
+    @Published var profileImageURL: URL?
+    @Published var publicMetrics: PublicMetrics?
+    @Published var url: URL?
+    @Published var verified: Bool?
     @Published var tweets: [Tweet] = []
+
+    var olderTweetsToken: String?
 
     @Published var errorIsActive: Bool = false {
         didSet {
@@ -41,11 +42,15 @@ class User: ObservableObject, Identifiable {
         }
     }
 
+    var isLoaded: Bool {
+        return name != nil
+    }
+
     init(api: TwitterAPIProtocol, apiUser: TwitterAPI.Models.User.Data) {
         self.api = api
         self.id = apiUser.id
-        self.name = apiUser.name
         self.userName = apiUser.username
+        self.name = apiUser.name
         self.createdAt = ISO8601DateFormatter.twitter.date(from: apiUser.created_at) ?? .now
         self.description = apiUser.description
         self.location = apiUser.location
@@ -54,6 +59,32 @@ class User: ObservableObject, Identifiable {
         self.publicMetrics = PublicMetrics(apiUser.public_metrics)
         self.url = URL(string: apiUser.url)
         self.verified = apiUser.verified
+    }
+
+    init(api: TwitterAPIProtocol,
+         id: String,
+         userName: String,
+         name: String? = nil,
+         createdAt: Date? = nil,
+         description: String? = nil,
+         location: String? = nil,
+         pinnedTweetID: String? = nil,
+         profileImageURL: URL? = nil,
+         publicMetrics: PublicMetrics? = nil,
+         url: URL? = nil,
+         verified: Bool? = nil) {
+        self.api = api
+        self.id = id
+        self.userName = userName
+        self.name = name
+        self.createdAt = createdAt
+        self.description = description
+        self.location = location
+        self.pinnedTweetID = pinnedTweetID
+        self.profileImageURL = profileImageURL
+        self.publicMetrics = publicMetrics
+        self.url = url
+        self.verified = verified
     }
 
 }

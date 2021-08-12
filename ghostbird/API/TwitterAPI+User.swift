@@ -9,22 +9,22 @@ import Foundation
 
 extension TwitterAPI {
 
-//    func getUser(with id: String?) async throws -> TwitterAPI.Models.Trends {
-//        var queryItems: [URLQueryItem] = []
-//
-//        queryItems.append(.init(name: "id", value: locationID ?? "1"))
-//
-//        return try await performRequest(method: .get,
-//                                        path: "2/users/" + id,
-//                                        queryItems: queryItems)
-//    }
+    func getUser(with id: String) async throws -> TwitterAPI.Models.User {
+        var queryItems: [URLQueryItem] = []
+
+        queryItems.append(TwitterAPI.QueryItems.userFields)
+        queryItems.append(TwitterAPI.QueryItems.tweetFields)
+
+        return try await performRequest(method: .get,
+                                        path: "/2/users/" + id,
+                                        queryItems: queryItems)
+    }
 }
 
 extension TwitterAPI.Models {
 
     struct User: Decodable {
         let data: Data
-        let includes: Includes
 
         struct Data: Decodable {
             let created_at: String
@@ -48,9 +48,6 @@ extension TwitterAPI.Models {
             }
         }
 
-        struct Includes: Decodable {
-            let tweets: [Tweet.Data]
-        }
     }
     
 }

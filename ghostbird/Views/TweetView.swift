@@ -26,7 +26,9 @@ struct TweetView: View {
                 return AnyView(SearchView(search: search))
             }
         case .mention:
-            return AnyView(UserView(user: tweet.author))
+            if let user = tweet.user(for: entity) {
+                return AnyView(UserView(user: user))
+            }
         default:
             return AnyView(Text(entity.string))
         }
@@ -69,15 +71,15 @@ struct TweetView: View {
         }
             .frame(width: 40, height: 40)
         .onTapGesture {
-//            tweet.activeEntity = TweetTextElement(string: tweet.author.userName,
-//                                                   range: NSRange(location: 0, length: 0),
-//                                                   type: .mention)
+            tweet.activeEntity = TwitterStringEntity(type: .mention,
+                                                     range: NSRange(location: 0, length: 0),
+                                                     string: tweet.author.userName)
         }
     }
 
     var nameView: some View {
         HStack(spacing: 4) {
-            Text(tweet.author.name)
+            Text(tweet.author.name ?? "")
                 .font(.caption)
                 .bold()
                 .lineLimit(1)

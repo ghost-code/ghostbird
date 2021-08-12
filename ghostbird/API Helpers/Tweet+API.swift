@@ -52,10 +52,9 @@ extension Tweet {
             Search(api: api, name: "#" + $0.tag, query: "#" + $0.tag)
         }) ?? []
 
-//        let mentions = apiTweetData.entities?.mentions?.map({ _ in
-////            User(api: TwitterAPIProtocol, apiUser: <#T##TwitterAPI.Models.User.Data#>)
-//        }) ?? []
-        let mentions: [User] = []
+        let mentions: [User] = apiTweetData.entities?.mentions?.map({
+            User(api: api, id: $0.id, userName: $0.username)
+        }) ?? []
 
         let urls = apiTweetData.entities?.urls?.map({
             $0.url
