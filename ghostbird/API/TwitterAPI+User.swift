@@ -19,6 +19,7 @@ extension TwitterAPI {
                                         path: "/2/users/" + id,
                                         queryItems: queryItems)
     }
+
 }
 
 extension TwitterAPI.Models {

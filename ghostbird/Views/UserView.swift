@@ -13,6 +13,9 @@ struct UserView: View {
 
     var body: some View {
         List {
+            header
+                .font(.body)
+                .foregroundColor(Color("LabelColor"))
             // Tweets / mentions / favorites
             // following / followers
             Section {
@@ -20,9 +23,15 @@ struct UserView: View {
                     TweetView(tweet: $0)
                 }
             } header: {
-                header
-                    .font(.body)
-                    .foregroundColor(Color("LabelColor"))
+                HStack(spacing: 32) {
+                    Spacer()
+                    Text("Tweets")
+                    Text("Mentions")
+                    Text("Favorites")
+                    Spacer()
+                }
+                .font(.system(.body).bold())
+
             }
         }
         .task {
@@ -60,7 +69,6 @@ struct UserView: View {
         }
         .padding(16)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .overlay(Color("SeparatorColor").frame(height: 0.5).ignoresSafeArea(), alignment: .bottom)
     }
 
     var createdAtString: String {

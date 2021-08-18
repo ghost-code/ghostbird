@@ -32,6 +32,7 @@ struct ConversationView: View {
             NetworkErrorAlert.alert(for: tweet.activeError)
         }
         .task {
+            // TODO: This happens too often
             if tweet.replies.isEmpty && tweet.referencedTweets.isEmpty {
                 await tweet.getReferencedTweets()
                 await tweet.getAllReplies()
