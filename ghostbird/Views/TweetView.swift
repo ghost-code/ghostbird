@@ -15,7 +15,13 @@ struct TweetView: View {
 
     // TODO: clean this up
     var elementDestination: some View {
-        guard let entity = tweet.activeEntity else { return AnyView(ConversationView(tweet: tweet.copy)) }
+        guard let entity = tweet.activeEntity else {
+            if let conversation = tweet.conversation {
+                return AnyView(ConversationView(conversation: conversation))
+            } else {
+                return AnyView(EmptyView())
+            }
+        }
         switch entity.type {
         case .cashtag:
             if let search = tweet.cashtagSearch(for: entity) {
@@ -58,6 +64,7 @@ struct TweetView: View {
         .listRowSeparator(.hidden)
         .listRowBackground(Color.clear)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .headerProminence(.increased)
     }
 
     var userImage: some View {

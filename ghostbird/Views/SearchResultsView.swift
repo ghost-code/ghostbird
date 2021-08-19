@@ -27,7 +27,7 @@ struct SearchView: View {
         .refreshable {
             await search.getNewerTweets()
         }
-        .navigationBarTitle(search.name, displayMode: .inline)
+        .navigationBarTitle(search.name)
         .alert(isPresented: $search.errorIsActive) {
             NetworkErrorAlert.alert(for: search.activeError)
         }

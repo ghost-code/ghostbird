@@ -25,7 +25,7 @@ struct TrendsView: View {
         .refreshable {
             await trends.getTrends()
         }
-        .navigationBarTitle("Trends", displayMode: .inline)
+        .navigationBarTitle("Trends")
         .alert(isPresented: $trends.errorIsActive) {
             NetworkErrorAlert.alert(for: trends.activeError)
         }

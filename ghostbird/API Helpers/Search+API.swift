@@ -22,7 +22,7 @@ extension Search {
         var tweets: [Tweet] = []
         for apiTweet in data {
             guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return [] }
-            tweets.append(Tweet(api: api, apiTweetData: apiTweet, apiUser: apiUser))
+            tweets.append(TwitterClient.tweet(for: api, apiTweetData: apiTweet, apiUser: apiUser))
         }
         return tweets
     }

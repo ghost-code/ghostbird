@@ -1,6 +1,6 @@
 //
 //  TwitterStringEntity.swift
-//  TwitterStringEntity
+//  ghostbird
 //
 //  Created by David Russell on 8/11/21.
 //

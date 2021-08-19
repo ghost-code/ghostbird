@@ -29,20 +29,6 @@ class Tweet: ObservableObject, Identifiable {
         }
     }
 
-    @Published var errorIsActive: Bool = false {
-        didSet {
-            if !errorIsActive && activeError != nil {
-                activeError = nil
-            }
-        }
-    }
-
-    var activeError: Error? {
-        didSet {
-            errorIsActive = activeError != nil
-        }
-    }
-
     let api: TwitterAPIProtocol
     let id: String
     let conversationID: String
@@ -55,6 +41,7 @@ class Tweet: ObservableObject, Identifiable {
     let hasReferencedTweets: Bool
     let twitterText: TwitterString
     let language: String?
+    var conversation: Conversation?
 
     init(api: TwitterAPIProtocol,
          id: String,
@@ -67,7 +54,8 @@ class Tweet: ObservableObject, Identifiable {
          hasReferencedTweets: Bool,
          language: String?,
          referencedTweetIDs: [String]? = nil,
-         metrics: Metrics
+         metrics: Metrics,
+         conversation: Conversation?
     ) {
         self.api = api
         self.id = id
@@ -81,25 +69,9 @@ class Tweet: ObservableObject, Identifiable {
         self.metrics = metrics
         self.language = language
         self.twitterText = twitterText
+        self.conversation = conversation
     }
 
-    func getReferencedTweets() async {
-        do {
-            referencedTweets = try await getReferencedTweets(for: referencedTweetIDs)
-        } catch {
-            activeError = error
-            errorIsActive = true
-        }
-     }
-
-    func getAllReplies() async {
-        do {
-            replies = try await getReplies(nextToken: nil, recursive: true)
-        } catch {
-            activeError = error
-            errorIsActive = true
-        }
-    }
 
     func hashtagSearch(for entity: TwitterStringEntity) -> Search? {
         entities.hashtags.first(where: { $0.name == entity.string })
@@ -129,7 +101,8 @@ class Tweet: ObservableObject, Identifiable {
               hasReferencedTweets: hasReferencedTweets,
               language: language,
               referencedTweetIDs: referencedTweetIDs,
-              metrics: metrics)
+              metrics: metrics,
+              conversation: conversation)
     }
 
 }

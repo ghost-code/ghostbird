@@ -1,6 +1,6 @@
 //
 //  TextEntity.swift
-//  TextEntity
+//  ghostbird
 //
 //  Created by David Russell on 8/6/21.
 //

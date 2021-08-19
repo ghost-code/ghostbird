@@ -8,37 +8,45 @@
 import SwiftUI
 
 struct ConversationView: View {
-    @ObservedObject var tweet: Tweet
+
+    @ObservedObject var conversation: Conversation
 
     var body: some View {
         VStack(spacing: 0) {
             List {
-                Section {
-                    ForEach(tweet.referencedTweets) { refrencedTweet in
-                        TweetView(tweet: refrencedTweet)
-                    }
+                if conversation.referencedTweets.count > 0 {
+                    Section(content: {
+                        ForEach(conversation.referencedTweets) { refrencedTweet in
+                            TweetView(tweet: refrencedTweet)
+                        }
+                    })
                 }
+
+
                 Section(content: {
-                    ForEach(tweet.replies) { reply in
+                    ForEach(conversation.replies) { reply in
                         TweetView(tweet: reply)
                     }
                 }, header: {
-                    TweetView(tweet: tweet)
+                    TweetView(tweet: conversation.tweet)
+                }, footer: {
+                    EmptyView().frame(height: 0)
                 })
             }
             .listStyle(.plain)
         }
-        .alert(isPresented: $tweet.errorIsActive) {
-            NetworkErrorAlert.alert(for: tweet.activeError)
+        .alert(isPresented: $conversation.observableError.errorIsActive) {
+            NetworkErrorAlert.alert(for: conversation.observableError.activeError)
         }
-        .task {
-            // TODO: This happens too often
-            if tweet.replies.isEmpty && tweet.referencedTweets.isEmpty {
-                await tweet.getReferencedTweets()
-                await tweet.getAllReplies()
+        .onAppear {
+            if conversation.replies.isEmpty && conversation.referencedTweets.isEmpty {
+                Task {
+                    await conversation.getReferencedTweets()
+                    await conversation.getReplies()
+                }
             }
         }
-        .navigationBarTitle("Conversation", displayMode: .inline)
+        .navigationBarTitle("Conversation")
     }
 
 }
