@@ -17,17 +17,17 @@ struct TrendsView: View {
                 TrendListItemView(trend: trend)
             }
         }
-        .task {
+        .onAppear {
             if trends.trendsCollection.isEmpty {
-                await trends.getTrends()
+                Task { await trends.getTrends() }
             }
         }
         .refreshable {
             await trends.getTrends()
         }
         .navigationBarTitle("Trends")
-        .alert(isPresented: $trends.errorIsActive) {
-            NetworkErrorAlert.alert(for: trends.activeError)
+        .alert(isPresented: $trends.observableError.errorIsActive) {
+            NetworkErrorAlert.alert(for: trends.observableError.activeError)
         }
     }
 

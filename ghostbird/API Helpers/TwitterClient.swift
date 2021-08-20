@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class TwitterClient {
 
     typealias SearchResult = (tweets: [Tweet], nextToken: String?)
@@ -17,6 +18,33 @@ class TwitterClient {
 
     init(api: TwitterAPI) {
         self.api = api
+    }
+
+    static func trend(for apiTrend: TwitterAPI.Models.Trend, position: Int) -> Trend {
+        return Trend(name: apiTrend.name, query: apiTrend.query.removingPercentEncoding! + " -is:retweet",
+                     position: position,
+                     tweetVolume: apiTrend.tweet_volume)
+    }
+
+    static func user(for apiUser: TwitterAPI.Models.User.Data) -> User {
+        return User(id: apiUser.id,
+                    username: apiUser.username,
+                    name: apiUser.name,
+                    createdAt: ISO8601DateFormatter.twitter.date(from: apiUser.created_at),
+                    description: apiUser.description,
+                    location: apiUser.location,
+                    pinnedTweetID: apiUser.pinned_tweet_id,
+                    profileImageURL: apiUser.profile_image_url,
+                    publicMetrics: TwitterClient.userMetrics(for: apiUser.public_metrics),
+                    url: URL(string: apiUser.url),
+                    verified: apiUser.verified)
+    }
+
+    static func userMetrics(for apiUserMetrics: TwitterAPI.Models.User.Data.PublicMetrics) -> User.PublicMetrics {
+        return .init(followersCount: apiUserMetrics.followers_count,
+                     followingCount: apiUserMetrics.following_count,
+                     tweetCount: apiUserMetrics.tweet_count,
+                     listedCount: apiUserMetrics.listed_count)
     }
 
     static func tweetMetrics(for apiTweetMetrics: TwitterAPI.Models.Tweet.Data.PublicMetrics) -> Tweet.Metrics {
@@ -62,7 +90,6 @@ class TwitterClient {
         return entities
     }
 
-    @MainActor
     static func tweet(for api: TwitterAPIProtocol,
                apiTweetData: TwitterAPI.Models.Tweet.Data,
                apiUser: TwitterAPI.Models.User.Data) -> Tweet {
@@ -80,7 +107,7 @@ class TwitterClient {
                           twitterText: twitterString,
                           date: ISO8601DateFormatter.twitter.date(from: apiTweetData.created_at) ?? .now,
                           entities: entities,
-                          author: User(api: api, apiUser: apiUser),
+                          author: TwitterClient.user(for: apiUser),
                           conversationID: apiTweetData.conversation_id,
                           hasReferencedTweets: !(apiTweetData.referenced_tweets?.isEmpty ?? true),
                           language: apiTweetData.lang,
@@ -94,7 +121,6 @@ class TwitterClient {
         return tweet
     }
 
-    @MainActor
     static func tweets(for apiTweets: TwitterAPI.Models.Tweets, api: TwitterAPIProtocol) -> [Tweet]? {
         var tweets: [Tweet] = []
         let apiTweetsData = apiTweets.data
@@ -106,20 +132,31 @@ class TwitterClient {
         return tweets.count > 0 ? tweets : nil
     }
 
-    @MainActor
+    static func tweets(for apiSearchResults: TwitterAPI.Models.Search, api: TwitterAPIProtocol) -> [Tweet] {
+        guard let data = apiSearchResults.data,
+              let users = apiSearchResults.includes?.users else { return [] }
+
+        var tweets: [Tweet] = []
+        for apiTweet in data {
+            guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return [] }
+            tweets.append(TwitterClient.tweet(for: api, apiTweetData: apiTweet, apiUser: apiUser))
+        }
+        return tweets
+    }
+
     static func entities(for api: TwitterAPIProtocol,
                          apiTweetData: TwitterAPI.Models.Tweet.Data) -> Tweet.Entities {
 
         let cashtags = apiTweetData.entities?.cashtags?.map({
-            Search(api: api, name: "$" + $0.tag, query: "$" + $0.tag)
+            Search(name: "$" + $0.tag, query: "$" + $0.tag)
         }) ?? []
 
         let hashtags = apiTweetData.entities?.hashtags?.map({
-            Search(api: api, name: "#" + $0.tag, query: "#" + $0.tag)
+            Search(name: "#" + $0.tag, query: "#" + $0.tag)
         }) ?? []
 
         let mentions: [User] = apiTweetData.entities?.mentions?.map({
-            User(api: api, id: $0.id, userName: $0.username)
+            User(id: $0.id, username: $0.username)
         }) ?? []
 
         let urls = apiTweetData.entities?.urls?.map({
@@ -133,7 +170,7 @@ class TwitterClient {
         var tweets: [Tweet] = []
         guard ids.count > 0 else { return tweets }
         let apiTweets = try await api.getTweets(forTweetIDs: ids)
-        if let referencedTweets = await TwitterClient.tweets(for: apiTweets, api: api) {
+        if let referencedTweets = TwitterClient.tweets(for: apiTweets, api: api) {
             for tweet in referencedTweets {
                 tweets.insert(tweet, at: 0)
                 let referencedTweetIDs = tweet.referencedTweetIDs
@@ -153,8 +190,7 @@ class TwitterClient {
         let query = "conversation_id:" + conversationID + " to:" + username
 
         let searchResults = try await api.getSearchResults(forQuery: query,
-                                                           sinceID: nil,
-                                                           nextToken: nextToken)
+                                                           nextToken: nextToken, sinceID: nil)
 
         var newNextToken = searchResults.meta.next_token
 
@@ -167,7 +203,7 @@ class TwitterClient {
 
         for apiTweet in data {
             guard let apiUser = users.first(where: { $0.id == apiTweet.author_id }) else { return ([], nil) }
-            await replies.insert(TwitterClient.tweet(for: api, apiTweetData: apiTweet, apiUser: apiUser), at: 0)
+            replies.insert(TwitterClient.tweet(for: api, apiTweetData: apiTweet, apiUser: apiUser), at: 0)
         }
 
         if recursive, let nextToken = newNextToken {
@@ -187,9 +223,52 @@ class TwitterClient {
         let apiTrends = try await api.getTrends(for: woeid).trends
         var trends: [Trend] = []
         for i in 0..<apiTrends.count {
-            await trends.append(Trend(api: api, apiTrend: apiTrends[i], position: i + 1))
+            trends.append(TwitterClient.trend(for: apiTrends[i], position: i + 1))
         }
         return trends
+    }
+
+    func getTweets(forSearchQuery searchQuery: String,
+                   nextToken: String?,
+                   sinceID: String?) async throws -> SearchResult {
+
+        let searchResults = try await api.getSearchResults(forQuery: searchQuery,
+                                                           nextToken: nextToken,
+                                                           sinceID: sinceID)
+        let token = searchResults.meta.next_token
+        let tweets = TwitterClient.tweets(for: searchResults, api: api)
+        return (tweets, token)
+    }
+
+    func getTweets(forUserID userID: String,
+                   nextToken: String?,
+                   sinceID: String?) async throws -> SearchResult {
+        
+        let searchResults = try await api.getTweets(forUserID: userID,
+                                                    nextToken: nextToken,
+                                                    sinceID: sinceID)
+
+        let token = searchResults.meta.next_token
+        let tweets = TwitterClient.tweets(for: searchResults, api: api)
+        return (tweets, token)
+    }
+
+    func getUser(with userID: String) async throws -> User {
+        let apiUser = try await api.getUser(with: userID).data
+        return TwitterClient.user(for: apiUser)
+    }
+
+    func getMentions(forUserID userID: String,
+                     nextToken: String?,
+                     sinceID: String?) async throws -> SearchResult {
+
+        let searchResults = try await api.getMentions(forUserID: userID,
+                                                      nextToken: nextToken,
+                                                      sinceID: sinceID)
+
+        let token = searchResults.meta.next_token
+        let tweets = TwitterClient.tweets(for: searchResults, api: api)
+        return (tweets, token)
     }
 
 }

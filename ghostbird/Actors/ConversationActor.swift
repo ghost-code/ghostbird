@@ -19,7 +19,7 @@ actor ConversationActor {
         self.conversationID = tweet.conversationID
         self.referencedTweetIDs = tweet.referencedTweetIDs
         self.tweetID = tweet.id
-        self.username = tweet.author.userName
+        self.username = tweet.author.username
     }
 
     func getReferencedTweets() async throws -> [Tweet] {

@@ -10,9 +10,8 @@ import Foundation
 @MainActor
 class User: ObservableObject, Identifiable {
 
-    let api: TwitterAPIProtocol
     let id: String
-    let userName: String
+    let username: String
 
     @Published var name: String?
     @Published var createdAt: Date?
@@ -24,46 +23,18 @@ class User: ObservableObject, Identifiable {
     @Published var url: URL?
     @Published var verified: Bool?
     @Published var tweets: [Tweet] = []
+    @Published var mentions: [Tweet] = []
 
-    var olderTweetsToken: String?
 
-    @Published var errorIsActive: Bool = false {
-        didSet {
-            if !errorIsActive && activeError != nil {
-                activeError = nil
-            }
-        }
-    }
-
-    var activeError: Error? {
-        didSet {
-            errorIsActive = activeError != nil
-
-        }
-    }
+    var observableError = ObservableError()
+    let userActor: UserActor
 
     var isLoaded: Bool {
         return name != nil
     }
 
-    init(api: TwitterAPIProtocol, apiUser: TwitterAPI.Models.User.Data) {
-        self.api = api
-        self.id = apiUser.id
-        self.userName = apiUser.username
-        self.name = apiUser.name
-        self.createdAt = ISO8601DateFormatter.twitter.date(from: apiUser.created_at) ?? .now
-        self.description = apiUser.description
-        self.location = apiUser.location
-        self.pinnedTweetID = apiUser.pinned_tweet_id
-        self.profileImageURL = apiUser.profile_image_url
-        self.publicMetrics = PublicMetrics(apiUser.public_metrics)
-        self.url = URL(string: apiUser.url)
-        self.verified = apiUser.verified
-    }
-
-    init(api: TwitterAPIProtocol,
-         id: String,
-         userName: String,
+    init(id: String,
+         username: String,
          name: String? = nil,
          createdAt: Date? = nil,
          description: String? = nil,
@@ -73,9 +44,8 @@ class User: ObservableObject, Identifiable {
          publicMetrics: PublicMetrics? = nil,
          url: URL? = nil,
          verified: Bool? = nil) {
-        self.api = api
         self.id = id
-        self.userName = userName
+        self.username = username
         self.name = name
         self.createdAt = createdAt
         self.description = description
@@ -85,6 +55,59 @@ class User: ObservableObject, Identifiable {
         self.publicMetrics = publicMetrics
         self.url = url
         self.verified = verified
+        self.userActor = UserActor(userID: id)
+    }
+
+    private func update(with user: User) {
+        self.name = user.name
+        self.createdAt = user.createdAt
+        self.description = user.description
+        self.location = user.location
+        self.pinnedTweetID = user.pinnedTweetID
+        self.profileImageURL = user.profileImageURL
+        self.publicMetrics = user.publicMetrics
+        self.url = user.url
+        self.verified = user.verified
+    }
+
+    func getUser() async {
+        do {
+            update(with: try await userActor.getUser())
+        } catch {
+            observableError.activeError = error
+        }
+    }
+
+    func getMentions() async {
+        do {
+            mentions = try await userActor.getMentions()
+        } catch {
+            observableError.activeError = error
+        }
+    }
+
+    func getTweets() async {
+        do {
+            tweets = try await userActor.getTweets()
+        } catch {
+            observableError.activeError = error
+        }
+    }
+
+    func getNewerTweets() async {
+        do {
+            tweets.insert(contentsOf: try await userActor.getNewerTweets(), at: 0)
+        } catch {
+            observableError.activeError = error
+        }
+    }
+
+    func getOlderTweets() async {
+        do {
+            tweets.append(contentsOf: try await userActor.getNewerTweets())
+        } catch {
+            observableError.activeError = error
+        }
     }
 
 }
@@ -92,19 +115,10 @@ class User: ObservableObject, Identifiable {
 extension User {
 
     struct PublicMetrics {
-
         let followersCount: Int
         let followingCount: Int
         let tweetCount: Int
         let listedCount: Int
-
-        init(_ apiUserMetrics: TwitterAPI.Models.User.Data.PublicMetrics) {
-            self.followersCount = apiUserMetrics.followers_count
-            self.followingCount = apiUserMetrics.following_count
-            self.tweetCount = apiUserMetrics.tweet_count
-            self.listedCount = apiUserMetrics.listed_count
-        }
-
     }
 
 }

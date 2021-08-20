@@ -11,29 +11,44 @@ import Foundation
 class Trends: ObservableObject {
 
     @Published var trendsCollection: [Trend] = []
-    @Published var errorIsActive: Bool = false
 
     let woeid: Int
-    let api: TwitterAPIProtocol
+    var observableError = ObservableError()
+    private let trendsActor = TrendsActor()
 
-    var activeError: Error? { didSet { errorIsActive = activeError != nil } }
-
-    init(api: TwitterAPIProtocol, woeid: Int) {
-        self.api = api
+    init(woeid: Int) {
         self.woeid = woeid
     }
 
     func getTrends() async {
         do {
-            let apiTrends = try await api.getTrends(for: woeid).trends
-            var trends: [Trend] = []
-            for i in 0..<apiTrends.count {
-                trends.append(Trend(api: api, apiTrend: apiTrends[i], position: i + 1))
-            }
-            trendsCollection = trends
+            trendsCollection = try await trendsActor.getTrends(for: woeid)
         } catch {
-            self.activeError = error
+            observableError.activeError = error
         }
     }
     
+}
+
+@MainActor
+class Trend: Identifiable {
+
+    let id: String
+    let name: String
+    let position: Int
+    let tweetVolume: Int?
+    let search: Search
+
+    init(name: String,
+         query: String,
+         position: Int,
+         tweetVolume: Int?) {
+        self.id = name
+        self.name = name
+        self.position = position
+        self.tweetVolume = tweetVolume
+        self.search = Search(name: name,
+                             query: query)
+    }
+
 }

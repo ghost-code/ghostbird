@@ -80,7 +80,7 @@ struct TweetView: View {
         .onTapGesture {
             tweet.activeEntity = TwitterStringEntity(type: .mention,
                                                      range: NSRange(location: 0, length: 0),
-                                                     string: tweet.author.userName)
+                                                     string: tweet.author.username)
         }
     }
 
@@ -90,7 +90,7 @@ struct TweetView: View {
                 .font(.caption)
                 .bold()
                 .lineLimit(1)
-            Text("@" + tweet.author.userName)
+            Text("@" + tweet.author.username)
                 .font(.caption2)
                 .lineLimit(1)
         }

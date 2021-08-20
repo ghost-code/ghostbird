@@ -13,19 +13,41 @@ class Search: ObservableObject, Identifiable {
     @Published var tweets: [Tweet] = []
     @Published var errorIsActive: Bool = false
 
-    let api: TwitterAPIProtocol
     let id: String
     let name: String
     let query: String
-    var olderTweetsToken: String?
+    var observableError = ObservableError()
+    var searchActor: SearchActor
 
-    var activeError: Error? { didSet { errorIsActive = activeError != nil } }
-
-    init(api: TwitterAPIProtocol, name: String, query: String) {
-        self.api = api
+    init(name: String, query: String) {
         self.id = name
         self.name = name
         self.query = query
+        self.searchActor = SearchActor(query: query)
+    }
+
+    func getTweets() async {
+        do {
+            tweets = try await searchActor.getTweets()
+        } catch {
+            observableError.activeError = error
+        }
+    }
+
+    func getNewerTweets() async {
+        do {
+            tweets.insert(contentsOf: try await searchActor.getNewerTweets(), at: 0)
+        } catch {
+            observableError.activeError = error
+        }
+    }
+
+    func getOlderTweets() async {
+        do {
+            tweets.append(contentsOf: try await searchActor.getOlderTweets())
+        } catch {
+            observableError.activeError = error
+        }
     }
 
 }

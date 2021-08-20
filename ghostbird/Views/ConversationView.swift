@@ -22,15 +22,12 @@ struct ConversationView: View {
                     })
                 }
 
-
                 Section(content: {
                     ForEach(conversation.replies) { reply in
                         TweetView(tweet: reply)
                     }
                 }, header: {
                     TweetView(tweet: conversation.tweet)
-                }, footer: {
-                    EmptyView().frame(height: 0)
                 })
             }
             .listStyle(.plain)

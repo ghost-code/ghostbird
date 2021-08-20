@@ -10,12 +10,13 @@ import Foundation
 protocol TwitterAPIProtocol {
     func getTrends(for woeid: Int) async throws -> TwitterAPI.Models.Trends
     func getSearchResults(forQuery query: String,
-                          sinceID: String?,
-                          nextToken: String?) async throws -> TwitterAPI.Models.Search
+                          nextToken: String?,
+                          sinceID: String?) async throws -> TwitterAPI.Models.Search
     func getTweets(forTweetID id: String) async throws -> TwitterAPI.Models.Tweet
     func getTweets(forTweetIDs ids: [String]) async throws -> TwitterAPI.Models.Tweets
     func getTweets(forUserID userID: String,
-                   nextToken: String?)  async throws -> TwitterAPI.Models.Search
+                   nextToken: String?,
+                   sinceID: String?)  async throws -> TwitterAPI.Models.Search
     func getUser(with id: String) async throws -> TwitterAPI.Models.User
 }
 

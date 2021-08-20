@@ -35,17 +35,6 @@ extension TwitterAPI {
                                         queryItems: queryItems)
     }
 
-    func getTweets(forUserID userID: String, nextToken: String?)  async throws -> TwitterAPI.Models.Search {
-        var queryItems: [URLQueryItem] = []
-        queryItems.append(TwitterAPI.QueryItems.expansions)
-        queryItems.append(TwitterAPI.QueryItems.userFields)
-        queryItems.append(TwitterAPI.QueryItems.tweetFields)
-
-        return try await performRequest(method: .get,
-                                        path: "/2/users/" + userID + "/tweets",
-                                        queryItems: queryItems)
-    }
-
 }
 
 extension TwitterAPI.Models {

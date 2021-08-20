@@ -9,41 +9,61 @@ import SwiftUI
 
 struct UserView: View {
 
+    enum ListType: String, Identifiable, CaseIterable {
+        var id: String { self.rawValue }
+        case tweets = "Tweets"
+        case mentions = "Mentions"
+
+        var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
+    }
+
     @ObservedObject var user: User
+
+    @State var selectedList: ListType = .tweets
+
 
     var body: some View {
         List {
             header
                 .font(.body)
                 .foregroundColor(Color("LabelColor"))
-            // Tweets / mentions / favorites
-            // following / followers
             Section {
-                ForEach(user.tweets) {
-                    TweetView(tweet: $0)
+                switch selectedList {
+                case .tweets:
+                    ForEach(user.tweets) {
+                        TweetView(tweet: $0)
+                    }
+                case .mentions:
+                    ForEach(user.mentions) {
+                        TweetView(tweet: $0)
+                    }
                 }
             } header: {
-                HStack(spacing: 32) {
-                    Spacer()
-                    Text("Tweets")
-                    Text("Mentions")
-                    Text("Favorites")
-                    Spacer()
+                Picker("Timeline List Picker", selection: $selectedList) {
+                    ForEach(ListType.allCases) {
+                        Text($0.localizedName).tag($0)
+                    }
                 }
-                .font(.system(.body).bold())
-
+                .pickerStyle(SegmentedPickerStyle())
             }
         }
-        .task {
-            if !user.isLoaded {
-                await user.getUser()
-            }
-            if user.tweets.isEmpty {
-                await user.getTweets()
+        .onAppear {
+            Task {
+                if !user.isLoaded {
+                    await user.getUser()
+                }
+                if user.tweets.isEmpty {
+                    await user.getTweets()
+                }
             }
         }
+        .onChange(of: selectedList, perform: {
+            if $0 == .mentions, user.mentions.isEmpty {
+                Task { await user.getMentions() }
+            }
+        })
         .listStyle(.plain)
-        .navigationTitle(user.userName)
+        .navigationTitle("@" + user.username)
     }
 
     var header: some View {

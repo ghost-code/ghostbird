@@ -82,10 +82,10 @@ class Tweet: ObservableObject, Identifiable {
     }
 
     func user(for entity: TwitterStringEntity) -> User? {
-        if author.userName == entity.string {
+        if author.username == entity.string {
             return author
         } else {
-            return entities.mentions.first(where: { $0.userName == entity.string })
+            return entities.mentions.first(where: { $0.username == entity.string })
         }
     }
 

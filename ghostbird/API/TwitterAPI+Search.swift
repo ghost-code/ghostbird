@@ -10,8 +10,8 @@ import Foundation
 extension TwitterAPI {
 
     func getSearchResults(forQuery query: String,
-                          sinceID: String?,
-                          nextToken: String?) async throws -> Models.Search {
+                          nextToken: String?,
+                          sinceID: String?) async throws -> Models.Search {
 
         var queryItems: [URLQueryItem] = []
 

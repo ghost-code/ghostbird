@@ -28,8 +28,8 @@ struct SearchView: View {
             await search.getNewerTweets()
         }
         .navigationBarTitle(search.name)
-        .alert(isPresented: $search.errorIsActive) {
-            NetworkErrorAlert.alert(for: search.activeError)
+        .alert(isPresented: $search.observableError.errorIsActive) {
+            NetworkErrorAlert.alert(for: search.observableError.activeError)
         }
     }
 

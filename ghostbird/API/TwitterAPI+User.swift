@@ -20,6 +20,44 @@ extension TwitterAPI {
                                         queryItems: queryItems)
     }
 
+    func getTweets(forUserID userID: String,
+                   nextToken: String?,
+                   sinceID: String?)  async throws -> TwitterAPI.Models.Search {
+
+        var queryItems: [URLQueryItem] = []
+
+        if let sinceID = sinceID {
+            queryItems.append(.init(name: "since_id", value: sinceID))
+        }
+
+        queryItems.append(TwitterAPI.QueryItems.expansions)
+        queryItems.append(TwitterAPI.QueryItems.userFields)
+        queryItems.append(TwitterAPI.QueryItems.tweetFields)
+
+        return try await performRequest(method: .get,
+                                        path: "/2/users/" + userID + "/tweets",
+                                        queryItems: queryItems)
+    }
+
+    func getMentions(forUserID userID: String,
+                     nextToken: String?,
+                     sinceID: String?) async throws -> TwitterAPI.Models.Search {
+
+        var queryItems: [URLQueryItem] = []
+
+        if let sinceID = sinceID {
+            queryItems.append(.init(name: "since_id", value: sinceID))
+        }
+
+        queryItems.append(TwitterAPI.QueryItems.expansions)
+        queryItems.append(TwitterAPI.QueryItems.userFields)
+        queryItems.append(TwitterAPI.QueryItems.tweetFields)
+
+        return try await performRequest(method: .get,
+                                        path: "/2/users/" + userID + "/mentions",
+                                        queryItems: queryItems)
+    }
+
 }
 
 extension TwitterAPI.Models {
